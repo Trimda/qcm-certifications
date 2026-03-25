@@ -1,0 +1,39 @@
+/* ============================================
+   Memphis Design System — CSS Custom Properties
+   ============================================ */
+
+:root {
+  /* Colors */
+  --memphis-yellow: #FFE600;
+  --memphis-red: #FF4D4D;
+  --memphis-blue: #0057FF;
+  --memphis-black: #111111;
+  --memphis-white: #FFFFFF;
+  --memphis-green: #00C853;
+  --memphis-purple: #8B00FF;
+  --memphis-orange: #FF6B00;
+
+  /* Background tones */
+  --memphis-bg: #FAFAFA;
+  --memphis-bg-alt: #F5F5F5;
+
+  /* Shadows */
+  --memphis-shadow: 4px 4px 0px var(--memphis-black);
+  --memphis-shadow-lg: 6px 6px 0px var(--memphis-black);
+  --memphis-shadow-sm: 2px 2px 0px var(--memphis-black);
+
+  /* Borders */
+  --memphis-border: 2px solid var(--memphis-black);
+  --memphis-border-thick: 3px solid var(--memphis-black);
+
+  /* Typography */
+  --memphis-font-heading: 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+  --memphis-font-body: 'Arial', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Spacing */
+  --memphis-radius: 0px;
+  --memphis-radius-sm: 2px;
+
+  /* Transitions */
+  --memphis-transition: 150ms ease;
+}
