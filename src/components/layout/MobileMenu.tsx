@@ -5,6 +5,7 @@ import { Navigation } from './Navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import i18n from '@/lib/i18n';
 
 interface MobileMenuProps {
@@ -56,6 +57,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           >
             {currentLang}
           </button>
+          {!currentUser && (
+            <>
+              <Link href="/login" onClick={onClose}
+                className="memphis-btn memphis-btn-ghost text-sm">
+                {t('nav.login')}
+              </Link>
+              <Link href="/register" onClick={onClose}
+                className="memphis-btn memphis-btn-primary text-sm">
+                {t('nav.register')}
+              </Link>
+            </>
+          )}
           {currentUser && (
             <button
               onClick={() => { void handleLogout(); }}

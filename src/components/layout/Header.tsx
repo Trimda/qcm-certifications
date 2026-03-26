@@ -37,6 +37,16 @@ export const Header: React.FC = () => {
 
           {/* Desktop Right Controls */}
           <div className="hidden lg:flex items-center gap-2">
+            {!currentUser && (
+              <>
+                <Link href="/login">
+                  <Button variant="ghost" size="sm">{t('nav.login')}</Button>
+                </Link>
+                <Link href="/register">
+                  <Button variant="primary" size="sm">{t('nav.register')}</Button>
+                </Link>
+              </>
+            )}
             {currentUser && (
               <Button variant="danger" size="sm" onClick={() => { void handleLogout(); }}>
                 {t('nav.logout')}
