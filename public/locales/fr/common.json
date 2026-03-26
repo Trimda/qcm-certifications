@@ -9,6 +9,7 @@
     "practice": "S'entraîner",
     "createQcm": "Créer un QCM",
     "admin": "Administration",
+    "account": "Mon compte",
     "login": "Connexion",
     "register": "Inscription",
     "logout": "Déconnexion"
@@ -122,5 +123,23 @@
     "close": "Fermer",
     "langFr": "FR",
     "langEn": "EN"
+  },
+  "account": {
+    "title": "Mon compte",
+    "profileSection": "Profil",
+    "passwordSection": "Changer le mot de passe",
+    "emailReadOnly": "L'adresse email ne peut pas être modifiée",
+    "saveUsername": "Enregistrer le nom",
+    "savePassword": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "usernameSuccess": "Nom d'utilisateur mis à jour !",
+    "passwordSuccess": "Mot de passe mis à jour !",
+    "usernameExists": "Ce nom d'utilisateur est déjà pris",
+    "usernameTooShort": "Le nom doit contenir au moins 2 caractères",
+    "wrongPassword": "Mot de passe actuel incorrect",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères"
   }
 }

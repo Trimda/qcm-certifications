@@ -10,6 +10,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string, role: Role) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -56,8 +57,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCurrentUser(null);
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    try {
+      const res = await fetch('/api/auth/me');
+      if (res.ok) {
+        const user = await res.json() as User;
+        setCurrentUser(user);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ currentUser, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ currentUser, isLoading, login, register, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

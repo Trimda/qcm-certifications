@@ -47,6 +47,11 @@ export const Navigation: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick
                 {t('nav.practice')}
               </Link>
             </li>
+            <li>
+              <Link href="/account" className={linkClass} onClick={onLinkClick}>
+                {t('nav.account')}
+              </Link>
+            </li>
           </>
         )}
 

@@ -1,3 +1,7 @@
+import bcrypt from 'bcryptjs';
+
+const SALT_ROUNDS = 10;
+
 /**
  * Generate a unique ID.
  */
@@ -6,19 +10,17 @@ export const generateId = (prefix = 'id'): string => {
 };
 
 /**
- * Simple password comparison for local dev.
- * For production, replace with bcrypt or similar.
+ * Hash a password using bcrypt.
  */
-export const hashPassword = (password: string): string => {
-  // For local dev only — plain text storage
-  return password;
+export const hashPassword = async (password: string): Promise<string> => {
+  return bcrypt.hash(password, SALT_ROUNDS);
 };
 
 /**
- * Verify a plain-text password against a stored value.
+ * Verify a plain-text password against a bcrypt hash.
  */
-export const verifyPassword = (plain: string, stored: string): boolean => {
-  return plain === stored;
+export const verifyPassword = async (plain: string, stored: string): Promise<boolean> => {
+  return bcrypt.compare(plain, stored);
 };
 
 /** Cookie name used for session storage */

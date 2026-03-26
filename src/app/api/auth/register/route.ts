@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import type { User, Role } from '@/types';
-import { generateId, SESSION_COOKIE, createSessionValue } from '@/lib/auth';
+import { generateId, hashPassword, SESSION_COOKIE, createSessionValue } from '@/lib/auth';
 
 const usersPath = join(process.cwd(), 'src', 'data', 'users.json');
 
@@ -34,11 +34,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email already exists' }, { status: 409 });
     }
 
+    if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+      return NextResponse.json({ error: 'Username already taken' }, { status: 409 });
+    }
+
+    const hashed = await hashPassword(password);
+
     const newUser: User = {
       id: generateId('user'),
       username,
       email,
-      password,
+      password: hashed,
       role,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

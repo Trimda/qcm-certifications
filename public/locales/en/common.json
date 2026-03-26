@@ -9,6 +9,7 @@
     "practice": "Practice",
     "createQcm": "Create QCM",
     "admin": "Administration",
+    "account": "My Account",
     "login": "Login",
     "register": "Register",
     "logout": "Logout"
@@ -122,5 +123,23 @@
     "close": "Close",
     "langFr": "FR",
     "langEn": "EN"
+  },
+  "account": {
+    "title": "My Account",
+    "profileSection": "Profile",
+    "passwordSection": "Change Password",
+    "emailReadOnly": "Email address cannot be changed",
+    "saveUsername": "Save Name",
+    "savePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "usernameSuccess": "Username updated!",
+    "passwordSuccess": "Password updated!",
+    "usernameExists": "This username is already taken",
+    "usernameTooShort": "Username must be at least 2 characters",
+    "wrongPassword": "Current password is incorrect",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters"
   }
 }

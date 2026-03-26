@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import type { User } from '@/types';
+import { hashPassword } from '@/lib/auth';
 
 const usersPath = join(process.cwd(), 'src', 'data', 'users.json');
 
@@ -19,12 +20,16 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const body = await request.json() as Partial<User>;
+    const body = await request.json() as Partial<User & { password?: string }>;
     const users = readUsers();
     const index = users.findIndex(u => u.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    if (body.password) {
+      body.password = await hashPassword(body.password);
     }
 
     users[index] = { ...users[index], ...body, updatedAt: new Date().toISOString() };

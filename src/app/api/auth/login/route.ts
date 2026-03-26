@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const users = readUsers();
     const user = users.find(u => u.email === email);
 
-    if (!user || !user.password || !verifyPassword(password, user.password)) {
+    if (!user || !user.password || !(await verifyPassword(password, user.password))) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
