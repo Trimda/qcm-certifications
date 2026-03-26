@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useRouter } from 'next/navigation';
-import i18n from '@/lib/i18n';
 
 export const Header: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -21,15 +20,6 @@ export const Header: React.FC = () => {
     router.push('/');
   };
 
-  const toggleLanguage = () => {
-    const nextLang = i18n.language?.startsWith('fr') ? 'en' : 'fr';
-    void i18n.changeLanguage(nextLang);
-    localStorage.setItem('i18n_lang', nextLang);
-  };
-
-  const currentLang = i18n.language?.startsWith('fr') ? 'FR' : 'EN';
-  const nextLang = i18n.language?.startsWith('fr') ? 'EN' : 'FR';
-
   return (
     <>
       <header className="memphis-header">
@@ -40,32 +30,26 @@ export const Header: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation (centered) */}
-          <div className="hidden md:flex flex-1 justify-center">
+          <div className="hidden lg:flex flex-1 justify-center">
             <Navigation />
           </div>
 
           {/* Desktop Right Controls */}
-          <div className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={toggleLanguage} title={`Switch to ${nextLang}`}>
-              {currentLang}
-            </Button>
+          <div className="hidden lg:flex items-center gap-2">
             {currentUser && (
-              <>
-                <span className="text-xs font-bold">{currentUser.username}</span>
-                <Button variant="danger" size="sm" onClick={() => { void handleLogout(); }}>
-                  {t('nav.logout')}
-                </Button>
-              </>
+              <Button variant="danger" size="sm" onClick={() => { void handleLogout(); }}>
+                {t('nav.logout')}
+              </Button>
             )}
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile / Tablet Hamburger / Close */}
           <button
-            className="md:hidden p-2 border-2 border-black bg-white font-black text-lg"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
+            className="lg:hidden p-2 border-2 border-black bg-white font-black text-lg leading-none"
+            onClick={() => setMobileOpen(v => !v)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           >
-            ☰
+            {mobileOpen ? '✕' : '☰'}
           </button>
         </div>
       </header>

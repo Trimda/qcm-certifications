@@ -13,7 +13,7 @@ export const Navigation: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick
 
   return (
     <nav aria-label="Main navigation">
-      <ul className="flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-0 list-none m-0 p-0">
+      <ul className="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-0 list-none m-0 p-0">
         <li>
           <Link href="/" className={linkClass} onClick={onLinkClick}>
             {t('nav.home')}
