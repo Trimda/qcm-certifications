@@ -11,6 +11,7 @@ interface QuestionCardProps {
   question: Question;
   questionNumber: number;
   totalQuestions: number;
+  isLast?: boolean;
   onAnswer: (optionId: string) => void;
   onNext: () => void;
 }
@@ -19,6 +20,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   questionNumber,
   totalQuestions,
+  isLast = false,
   onAnswer,
   onNext,
 }) => {
@@ -91,7 +93,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           </Button>
         ) : (
           <Button variant="secondary" onClick={handleNext}>
-            {t('practice.nextQuestion')}
+            {isLast ? t('practice.seeResults') : t('practice.nextQuestion')}
           </Button>
         )}
       </div>

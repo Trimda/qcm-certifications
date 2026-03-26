@@ -46,6 +46,7 @@ export default function MixedPracticePage() {
             question={currentQuestion}
             questionNumber={session.currentIndex + 1}
             totalQuestions={session.questions.length}
+            isLast={isLast}
             onAnswer={(optionId: string) => submitAnswer(currentQuestion.id, optionId)}
             onNext={() => {
               if (isLast) finishSession();
