@@ -8,6 +8,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { PasswordInput } from '@/components/ui/PasswordInput';
 
 export const LoginForm: React.FC = () => {
   const { login } = useAuth();
@@ -46,9 +47,8 @@ export const LoginForm: React.FC = () => {
           required
           autoComplete="email"
         />
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           label={t('auth.password')}
           value={password}
           onChange={e => setPassword(e.target.value)}

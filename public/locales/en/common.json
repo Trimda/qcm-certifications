@@ -20,13 +20,17 @@
     "email": "Email",
     "password": "Password",
     "username": "Username",
+    "confirmPassword": "Confirm Password",
     "role": "Role",
     "loginButton": "Sign In",
     "registerButton": "Sign Up",
     "noAccount": "Don't have an account?",
     "alreadyAccount": "Already have an account?",
     "loginError": "Invalid email or password",
-    "registerError": "Registration error"
+    "registerError": "Registration error",
+    "emailExists": "This email is already in use",
+    "ruleMinLength": "At least 8 characters",
+    "ruleMatch": "Passwords match"
   },
   "home": {
     "heroTitle": "Prepare for your certifications with QCMs",

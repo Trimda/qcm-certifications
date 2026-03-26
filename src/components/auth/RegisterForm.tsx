@@ -8,6 +8,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { PasswordInput } from '@/components/ui/PasswordInput';
 import type { Role } from '@/types';
 
 export const RegisterForm: React.FC = () => {
@@ -18,19 +19,31 @@ export const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState<Role>('user');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const passwordMinLength = 8;
+  const rules = [
+    { key: 'minLength', ok: password.length >= passwordMinLength, label: t('auth.ruleMinLength') },
+    { key: 'match',     ok: confirmPassword.length > 0 && password === confirmPassword, label: t('auth.ruleMatch') },
+  ];
+  const allRulesOk = rules.every(r => r.ok);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    if (!allRulesOk) return;
     setIsLoading(true);
     try {
       await register(username, email, password, role);
       router.push('/dashboard');
-    } catch {
-      setError(t('auth.registerError'));
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '';
+      if (msg === 'Username already taken') setError(t('account.usernameExists'));
+      else if (msg === 'Email already exists') setError(t('auth.emailExists'));
+      else setError(t('auth.registerError'));
     } finally {
       setIsLoading(false);
     }
@@ -58,15 +71,37 @@ export const RegisterForm: React.FC = () => {
           required
           autoComplete="email"
         />
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           label={t('auth.password')}
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
           autoComplete="new-password"
         />
+        <PasswordInput
+          id="confirmPassword"
+          label={t('auth.confirmPassword')}
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+          required
+          autoComplete="new-password"
+        />
+
+        {/* Validation rules */}
+        {(password.length > 0 || confirmPassword.length > 0) && (
+          <ul className="flex flex-col gap-1">
+            {rules.map(rule => (
+              <li key={rule.key} className={`text-xs font-bold flex items-center gap-1.5 ${
+                rule.ok ? 'text-[var(--memphis-green)]' : 'text-[var(--memphis-red)]'
+              }`}>
+                <span>{rule.ok ? '✓' : '✕'}</span>
+                <span>{rule.label}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
         <div className="flex flex-col gap-1">
           <label htmlFor="role" className="font-black text-sm uppercase tracking-wide">
             {t('auth.role')}
@@ -84,7 +119,7 @@ export const RegisterForm: React.FC = () => {
         {error && (
           <p className="text-[var(--memphis-red)] font-bold text-sm">{error}</p>
         )}
-        <Button type="submit" variant="primary" disabled={isLoading}>
+        <Button type="submit" variant="primary" disabled={isLoading || !allRulesOk}>
           {isLoading ? t('common.loading') : t('auth.registerButton')}
         </Button>
       </form>

@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { PasswordInput } from '@/components/ui/PasswordInput';
 
 const ROLE_BADGE: Record<string, 'scrum' | 'devops' | 'safe'> = {
   admin: 'safe',
@@ -152,26 +153,23 @@ const AccountPage: React.FC = () => {
         <Card>
           <h2 className="memphis-heading text-xl mb-5">{t('account.passwordSection')}</h2>
           <form onSubmit={(e) => { void handlePasswordSubmit(e); }} className="flex flex-col gap-3">
-            <Input
+            <PasswordInput
               label={t('account.currentPassword')}
-              type="password"
               value={currentPassword}
               onChange={e => setCurrentPassword(e.target.value)}
               required
               autoComplete="current-password"
             />
-            <Input
+            <PasswordInput
               label={t('account.newPassword')}
-              type="password"
               value={newPassword}
               onChange={e => setNewPassword(e.target.value)}
               required
               minLength={6}
               autoComplete="new-password"
             />
-            <Input
+            <PasswordInput
               label={t('account.confirmPassword')}
-              type="password"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
               required

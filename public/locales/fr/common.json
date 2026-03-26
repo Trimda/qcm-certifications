@@ -20,13 +20,17 @@
     "email": "Email",
     "password": "Mot de passe",
     "username": "Nom d'utilisateur",
+    "confirmPassword": "Confirmer le mot de passe",
     "role": "Rôle",
     "loginButton": "Se connecter",
     "registerButton": "S'inscrire",
     "noAccount": "Pas encore de compte ?",
     "alreadyAccount": "Déjà un compte ?",
     "loginError": "Email ou mot de passe incorrect",
-    "registerError": "Erreur lors de l'inscription"
+    "registerError": "Erreur lors de l'inscription",
+    "emailExists": "Cet email est déjà utilisé",
+    "ruleMinLength": "Au moins 8 caractères",
+    "ruleMatch": "Les mots de passe correspondent"
   },
   "home": {
     "heroTitle": "Préparez vos certifications avec des QCM",
