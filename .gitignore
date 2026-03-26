@@ -38,4 +38,5 @@ next-env.d.ts
 # github
 .github
 
-# data/src/data/
+# data
+src/data/
