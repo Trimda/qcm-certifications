@@ -11,6 +11,7 @@ export const Footer: React.FC = () => {
   const toggleLanguage = () => {
     const nextLang = i18n.language?.startsWith('fr') ? 'en' : 'fr';
     void i18n.changeLanguage(nextLang);
+    localStorage.setItem('i18n_lang', nextLang);
   };
 
   return (
