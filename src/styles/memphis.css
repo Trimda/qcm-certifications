@@ -143,6 +143,13 @@
 }
 
 /* ---- Typography ---- */
+h1, h2, h3 {
+  font-family: var(--memphis-font-heading);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
 .memphis-heading {
   font-family: var(--memphis-font-heading);
   font-weight: 900;

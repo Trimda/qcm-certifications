@@ -1,5 +1,22 @@
 @import '../styles/variables.css';
 @import '../styles/memphis.css';
+
+@font-face {
+  font-family: 'ABCWhyteInktrap';
+  src: url('/fonts/whyte-inktrap-font-family/ABCWhyteInktrap-Black-Trial.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCWhyteInktrap';
+  src: url('/fonts/whyte-inktrap-font-family/ABCWhyteInktrap-BlackItalic-Trial.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @import 'tailwindcss';
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
