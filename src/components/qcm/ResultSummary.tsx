@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { CheckIcon, XIcon } from '@phosphor-icons/react';
 import type { Question } from '@/types';
 
 interface ResultSummaryProps {
@@ -47,7 +48,10 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
               key={q.id}
               className={`text-left p-3 border-2 border-black font-bold text-sm ${isCorrect ? 'bg-green-50' : 'bg-red-50'}`}
             >
-              <span className="mr-2">{isCorrect ? '✓' : '✗'}</span>
+              <span className="mr-2 inline-flex">{isCorrect
+                ? <CheckIcon size={16} weight="bold" className="text-green-700" />
+                : <XIcon size={16} weight="bold" className="text-[var(--memphis-red)]" />
+              }</span>
               {i + 1}. {q.text}
             </div>
           );

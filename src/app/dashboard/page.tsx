@@ -7,6 +7,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { ArrowRightIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 
 export default function DashboardPage() {
@@ -33,7 +34,7 @@ export default function DashboardPage() {
             <h2 className="memphis-heading text-xl mb-2">{t('dashboard.practiceTitle')}</h2>
             <p className="font-bold mb-4">{t('dashboard.practiceDesc')}</p>
             <Link href="/practice">
-              <Button variant="secondary" size="sm">{t('nav.practice')} →</Button>
+              <Button variant="secondary" size="sm">{t('nav.practice')} <ArrowRightIcon size={13} weight="bold" className="inline ml-1" /></Button>
             </Link>
           </Card>
 
@@ -43,7 +44,7 @@ export default function DashboardPage() {
               <h2 className="memphis-heading text-xl mb-2">{t('dashboard.contributorTitle')}</h2>
               <p className="font-bold mb-4">{t('dashboard.contributorDesc')}</p>
               <Link href="/contributor/qcm/new">
-                <Button variant="ghost" size="sm">{t('nav.createQcm')} →</Button>
+                <Button variant="ghost" size="sm">{t('nav.createQcm')} <ArrowRightIcon size={13} weight="bold" className="inline ml-1" /></Button>
               </Link>
             </Card>
           )}
@@ -54,7 +55,7 @@ export default function DashboardPage() {
               <h2 className="memphis-heading text-xl mb-2">{t('dashboard.adminTitle')}</h2>
               <p className="font-bold mb-4">{t('dashboard.adminDesc')}</p>
               <Link href="/admin/users">
-                <Button variant="ghost" size="sm">{t('nav.admin')} →</Button>
+                <Button variant="ghost" size="sm">{t('nav.admin')} <ArrowRightIcon size={13} weight="bold" className="inline ml-1" /></Button>
               </Link>
             </Card>
           )}

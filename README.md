@@ -24,6 +24,7 @@ Le design suit le **style Memphis** : couleurs vives, formes géométriques, bor
 | Framework | Next.js 15 (App Router), React 19 |
 | Langage | TypeScript 5 |
 | Styling | TailwindCSS 4 + shadcn/ui + Memphis Style |
+| Icônes | @phosphor-icons/react (weight bold) |
 | État | React Context API |
 | i18n | i18next, react-i18next |
 | Tests | Jest 29, React Testing Library |
@@ -101,7 +102,27 @@ public/
 
 ---
 
-## 🌍 Internationalisation
+## � Icônes
+
+Le projet utilise **[Phosphor Icons](https://phosphoricons.com/)** via le package `@phosphor-icons/react`.
+
+- Toutes les icônes utilisent le style `weight="bold"`
+- Les composants sont nommés avec le suffixe `Icon` : `ArrowRightIcon`, `EyeIcon`, `XIcon`, etc.
+- L'option `optimizePackageImports` est activée dans `next.config.ts` pour ne compiler que les icônes utilisées
+- Ne jamais utiliser d'emojis ou de caractères Unicode comme icônes
+
+```tsx
+// ✅ Correct
+import { ArrowRightIcon, CheckIcon } from '@phosphor-icons/react';
+<ArrowRightIcon size={16} weight="bold" />
+
+// ❌ Interdit
+→  ✓  🚀
+```
+
+---
+
+## �🌍 Internationalisation
 
 - **Langue par défaut** : Français (`fr`)
 - **Langue secondaire** : Anglais (`en`)

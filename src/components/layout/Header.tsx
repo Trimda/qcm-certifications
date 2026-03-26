@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useRouter } from 'next/navigation';
+import { ListIcon, XIcon } from '@phosphor-icons/react';
 
 export const Header: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -49,7 +50,7 @@ export const Header: React.FC = () => {
             onClick={() => setMobileOpen(v => !v)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileOpen ? '✕' : '☰'}
+            {mobileOpen ? <XIcon size={22} weight="bold" /> : <ListIcon size={22} weight="bold" />}
           </button>
         </div>
       </header>

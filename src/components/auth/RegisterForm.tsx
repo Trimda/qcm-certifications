@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { PasswordInput } from '@/components/ui/PasswordInput';
+import { CheckIcon, XIcon } from '@phosphor-icons/react';
 import type { Role } from '@/types';
 
 export const RegisterForm: React.FC = () => {
@@ -95,7 +96,10 @@ export const RegisterForm: React.FC = () => {
               <li key={rule.key} className={`text-xs font-bold flex items-center gap-1.5 ${
                 rule.ok ? 'text-[var(--memphis-green)]' : 'text-[var(--memphis-red)]'
               }`}>
-                <span>{rule.ok ? '✓' : '✕'}</span>
+                {rule.ok
+                  ? <CheckIcon size={14} weight="bold" />
+                  : <XIcon size={14} weight="bold" />
+                }
                 <span>{rule.label}</span>
               </li>
             ))}

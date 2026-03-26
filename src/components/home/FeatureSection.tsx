@@ -2,23 +2,24 @@
 
 import React from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { TargetIcon, ChartBarIcon, ShuffleIcon } from '@phosphor-icons/react';
 
 export const FeatureSection: React.FC = () => {
   const { t } = useTranslation();
 
   const features = [
     {
-      icon: '🎯',
+      icon: <TargetIcon size={40} weight="bold" />,
       title: t('home.feature1Title'),
       description: t('home.feature1Desc'),
     },
     {
-      icon: '📊',
+      icon: <ChartBarIcon size={40} weight="bold" />,
       title: t('home.feature2Title'),
       description: t('home.feature2Desc'),
     },
     {
-      icon: '🔀',
+      icon: <ShuffleIcon size={40} weight="bold" />,
       title: t('home.feature3Title'),
       description: t('home.feature3Desc'),
     },
@@ -36,7 +37,7 @@ export const FeatureSection: React.FC = () => {
               key={i}
               className="memphis-card p-6 flex flex-col gap-3 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform"
             >
-              <div className="text-4xl">{feature.icon}</div>
+              <div>{feature.icon}</div>
               <h3 className="memphis-heading text-xl">{feature.title}</h3>
               <p className="font-semibold text-sm">{feature.description}</p>
             </div>
