@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
+import { resolveText } from '@/lib/localizedText';
 import type { AnswerOption as AnswerOptionType } from '@/types';
 
 interface AnswerOptionProps {
@@ -16,6 +18,8 @@ export const AnswerOption: React.FC<AnswerOptionProps> = ({
   disabled = false,
   onClick,
 }) => {
+  const { i18n } = useTranslation();
+
   const stateClass = {
     default: '',
     selected: 'memphis-answer-selected',
@@ -31,7 +35,8 @@ export const AnswerOption: React.FC<AnswerOptionProps> = ({
       type="button"
     >
       <span className="font-black mr-3 uppercase">{option.id}.</span>
-      {option.text}
+      {resolveText(option.text, i18n.language)}
     </button>
   );
 };
+

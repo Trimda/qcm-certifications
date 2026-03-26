@@ -6,6 +6,7 @@ import { AnswerOption } from './AnswerOption';
 import { Button } from '@/components/ui/Button';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { useTranslation } from '@/hooks/useTranslation';
+import { resolveText } from '@/lib/localizedText';
 
 interface QuestionCardProps {
   question: Question;
@@ -24,9 +25,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   onAnswer,
   onNext,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
+  const questionText = resolveText(question.text, i18n.language);
 
   const handleSelect = (optionId: string) => {
     if (submitted) return;
@@ -62,7 +65,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         {t('practice.question')} {questionNumber} {t('practice.of')} {totalQuestions}
       </p>
 
-      <h2 className="memphis-heading text-xl">{question.text}</h2>
+      <h2 className="memphis-heading text-xl">{questionText}</h2>
 
       <div className="flex flex-col gap-3">
         {question.options.map(option => (

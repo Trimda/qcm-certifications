@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/hooks/useTranslation';
+import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -19,7 +20,7 @@ export const QcmList: React.FC<QcmListProps> = ({
   onDelete,
   showActions = false,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (qcms.length === 0) {
     return <p className="font-bold">{t('practice.noQcm')}</p>;
@@ -36,10 +37,10 @@ export const QcmList: React.FC<QcmListProps> = ({
       {qcms.map(qcm => (
         <Card key={qcm.id} variant={topicColors[qcm.topic]} className="flex flex-col gap-3">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="memphis-heading text-lg flex-1">{qcm.title}</h3>
+            <h3 className="memphis-heading text-lg flex-1">{resolveText(qcm.title, i18n.language)}</h3>
             <Badge variant={qcm.topic}>{qcm.topic.toUpperCase()}</Badge>
           </div>
-          <p className="text-sm font-bold flex-1">{qcm.description}</p>
+          <p className="text-sm font-bold flex-1">{resolveText(qcm.description, i18n.language)}</p>
           <p className="text-xs font-black opacity-60">
             {qcm.questions.length} questions
           </p>

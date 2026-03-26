@@ -4,9 +4,16 @@ import '@testing-library/jest-dom';
 import { AnswerOption } from '@/components/qcm/AnswerOption';
 import type { AnswerOption as AnswerOptionType } from '@/types';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: { language: 'en' },
+  }),
+}));
+
 const mockOption: AnswerOptionType = {
   id: 'a',
-  text: 'Test answer',
+  text: { fr: 'Réponse test', en: 'Test answer' },
 };
 
 describe('AnswerOption', () => {

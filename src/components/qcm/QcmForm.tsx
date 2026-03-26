@@ -9,21 +9,23 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { generateId } from '@/lib/auth';
-import type { Qcm, Question, AnswerOption, Topic } from '@/types';
+import type { Qcm, Question, AnswerOption, Topic, LocalizedText } from '@/types';
 
 interface QcmFormProps {
   initialQcm?: Qcm;
   mode: 'create' | 'edit';
 }
 
+const emptyLocalizedText = (): LocalizedText => ({ fr: '', en: '' });
+
 const emptyQuestion = (): Question => ({
   id: generateId('q'),
-  text: '',
+  text: emptyLocalizedText(),
   options: [
-    { id: 'a', text: '' },
-    { id: 'b', text: '' },
-    { id: 'c', text: '' },
-    { id: 'd', text: '' },
+    { id: 'a', text: emptyLocalizedText() },
+    { id: 'b', text: emptyLocalizedText() },
+    { id: 'c', text: emptyLocalizedText() },
+    { id: 'd', text: emptyLocalizedText() },
   ],
   correctAnswer: 'a',
 });
@@ -34,8 +36,8 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
   const { createNewQcm, editQcm } = useQcm();
   const router = useRouter();
 
-  const [title, setTitle] = useState(initialQcm?.title ?? '');
-  const [description, setDescription] = useState(initialQcm?.description ?? '');
+  const [title, setTitle] = useState<LocalizedText>(initialQcm?.title ?? emptyLocalizedText());
+  const [description, setDescription] = useState<LocalizedText>(initialQcm?.description ?? emptyLocalizedText());
   const [topic, setTopic] = useState<Topic>(initialQcm?.topic ?? 'scrum');
   const [questions, setQuestions] = useState<Question[]>(initialQcm?.questions ?? [emptyQuestion()]);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,17 +51,25 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
     setQuestions(prev => prev.filter((_, i) => i !== index));
   };
 
-  const updateQuestion = (index: number, field: keyof Question, value: string) => {
-    setQuestions(prev => prev.map((q, i) => i === index ? { ...q, [field]: value } : q));
+  const updateQuestionText = (index: number, lang: 'fr' | 'en', value: string) => {
+    setQuestions(prev => prev.map((q, i) =>
+      i === index ? { ...q, text: { ...q.text, [lang]: value } } : q
+    ));
   };
 
-  const updateOption = (qIndex: number, optionId: string, text: string) => {
+  const updateCorrectAnswer = (index: number, value: string) => {
+    setQuestions(prev => prev.map((q, i) =>
+      i === index ? { ...q, correctAnswer: value } : q
+    ));
+  };
+
+  const updateOption = (qIndex: number, optionId: string, lang: 'fr' | 'en', value: string) => {
     setQuestions(prev => prev.map((q, i) => {
       if (i !== qIndex) return q;
       return {
         ...q,
         options: q.options.map((opt: AnswerOption) =>
-          opt.id === optionId ? { ...opt, text } : opt
+          opt.id === optionId ? { ...opt, text: { ...opt.text, [lang]: value } } : opt
         ),
       };
     }));
@@ -99,20 +109,40 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
 
       <Card>
         <div className="flex flex-col gap-4">
-          <Input
-            id="title"
-            label={t('contributor.titleLabel')}
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            required
-          />
-          <Input
-            id="description"
-            label={t('contributor.descriptionLabel')}
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-            required
-          />
+          {/* Title — FR + EN */}
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              id="title-fr"
+              label={`${t('contributor.titleLabel')} (FR)`}
+              value={title.fr}
+              onChange={e => setTitle(prev => ({ ...prev, fr: e.target.value }))}
+              required
+            />
+            <Input
+              id="title-en"
+              label={`${t('contributor.titleLabel')} (EN)`}
+              value={title.en}
+              onChange={e => setTitle(prev => ({ ...prev, en: e.target.value }))}
+              required
+            />
+          </div>
+          {/* Description — FR + EN */}
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              id="description-fr"
+              label={`${t('contributor.descriptionLabel')} (FR)`}
+              value={description.fr}
+              onChange={e => setDescription(prev => ({ ...prev, fr: e.target.value }))}
+              required
+            />
+            <Input
+              id="description-en"
+              label={`${t('contributor.descriptionLabel')} (EN)`}
+              value={description.en}
+              onChange={e => setDescription(prev => ({ ...prev, en: e.target.value }))}
+              required
+            />
+          </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="topic" className="font-black text-sm uppercase tracking-wide">
               {t('contributor.topicLabel')}
@@ -149,22 +179,41 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
                 </Button>
               )}
             </div>
-            <Input
-              id={`q-${qIndex}-text`}
-              label={t('contributor.questionText')}
-              value={question.text}
-              onChange={e => updateQuestion(qIndex, 'text', e.target.value)}
-              required
-            />
-            {question.options.map((opt: AnswerOption) => (
+            {/* Question text — FR + EN */}
+            <div className="grid grid-cols-2 gap-3">
               <Input
-                key={opt.id}
-                id={`q-${qIndex}-opt-${opt.id}`}
-                label={`${t('contributor.optionText')} ${opt.id.toUpperCase()}`}
-                value={opt.text}
-                onChange={e => updateOption(qIndex, opt.id, e.target.value)}
+                id={`q-${qIndex}-text-fr`}
+                label={`${t('contributor.questionText')} (FR)`}
+                value={question.text.fr}
+                onChange={e => updateQuestionText(qIndex, 'fr', e.target.value)}
                 required
               />
+              <Input
+                id={`q-${qIndex}-text-en`}
+                label={`${t('contributor.questionText')} (EN)`}
+                value={question.text.en}
+                onChange={e => updateQuestionText(qIndex, 'en', e.target.value)}
+                required
+              />
+            </div>
+            {/* Options — FR + EN */}
+            {question.options.map((opt: AnswerOption) => (
+              <div key={opt.id} className="grid grid-cols-2 gap-3">
+                <Input
+                  id={`q-${qIndex}-opt-${opt.id}-fr`}
+                  label={`${t('contributor.optionText')} ${opt.id.toUpperCase()} (FR)`}
+                  value={opt.text.fr}
+                  onChange={e => updateOption(qIndex, opt.id, 'fr', e.target.value)}
+                  required
+                />
+                <Input
+                  id={`q-${qIndex}-opt-${opt.id}-en`}
+                  label={`${t('contributor.optionText')} ${opt.id.toUpperCase()} (EN)`}
+                  value={opt.text.en}
+                  onChange={e => updateOption(qIndex, opt.id, 'en', e.target.value)}
+                  required
+                />
+              </div>
             ))}
             <div className="flex flex-col gap-1">
               <label htmlFor={`q-${qIndex}-correct`} className="font-black text-sm uppercase tracking-wide">
@@ -173,7 +222,7 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
               <select
                 id={`q-${qIndex}-correct`}
                 value={question.correctAnswer}
-                onChange={e => updateQuestion(qIndex, 'correctAnswer', e.target.value)}
+                onChange={e => updateCorrectAnswer(qIndex, e.target.value)}
                 className="memphis-input"
               >
                 {question.options.map((opt: AnswerOption) => (

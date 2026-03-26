@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/hooks/useTranslation';
+import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CheckIcon, XIcon } from '@phosphor-icons/react';
@@ -19,7 +20,7 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
   answers,
   onRetry,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const correct = questions.filter(q => answers[q.id] === q.correctAnswer).length;
   const total = questions.length;
@@ -52,7 +53,7 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
                 ? <CheckIcon size={16} weight="bold" className="text-green-700" />
                 : <XIcon size={16} weight="bold" className="text-[var(--memphis-red)]" />
               }</span>
-              {i + 1}. {q.text}
+              {i + 1}. {resolveText(q.text, i18n.language)}
             </div>
           );
         })}
