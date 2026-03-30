@@ -41,3 +41,9 @@ export interface Qcm {
   createdAt: string;
   updatedAt: string;
 }
+export interface UserScore {
+  userId: string;
+  qcmId: string;
+  bestScore: number; // percentage 0-100
+  updatedAt: string;
+}

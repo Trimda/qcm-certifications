@@ -51,7 +51,7 @@ export default function TopicPracticePage() {
     // Only track score for single-QCM sessions
     const prev = activeQcmRef.current;
     if (prev && prev.qcms.length === 1 && !prev.max) {
-      updateBestScore(prev.qcms[0].id, percentage, scores);
+      void updateBestScore(prev.qcms[0].id, percentage, scores);
     }
   };
 
