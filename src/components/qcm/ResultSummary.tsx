@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/hooks/useTranslation';
 import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
@@ -13,18 +13,34 @@ interface ResultSummaryProps {
   questions: Question[];
   answers: Record<string, string>;
   onRetry: () => void;
+  backHref?: string;
+  onBack?: () => void;
+  onComplete?: (percentage: number) => void;
 }
 
 export const ResultSummary: React.FC<ResultSummaryProps> = ({
   questions,
   answers,
   onRetry,
+  backHref = '/practice',
+  onBack,
+  onComplete,
 }) => {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
+  const completedRef = useRef(false);
 
   const correct = questions.filter(q => answers[q.id] === q.correctAnswer).length;
   const total = questions.length;
   const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  useEffect(() => {
+    if (!completedRef.current && onComplete) {
+      completedRef.current = true;
+      onComplete(percentage);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const scoreColor =
     percentage >= 80 ? 'text-green-700' :
@@ -63,11 +79,15 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
         <Button variant="primary" onClick={onRetry}>
           {t('practice.retry')}
         </Button>
-        <Link href="/practice">
-          <Button variant="ghost">
-            {t('practice.backToTopics')}
-          </Button>
-        </Link>
+        <Button
+          variant="ghost"
+          onClick={() => {
+            onBack?.();
+            router.push(backHref);
+          }}
+        >
+          {t('practice.backToTopics')}
+        </Button>
       </div>
     </Card>
   );

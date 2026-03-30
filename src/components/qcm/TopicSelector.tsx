@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import type { Topic } from '@/types';
-import { UsersFourIcon, CpuIcon, RocketIcon, ShuffleIcon, ArrowRightIcon } from '@phosphor-icons/react';
+import { UsersFourIcon, CpuIcon, RocketIcon, ArrowRightIcon } from '@phosphor-icons/react';
 
 export const TopicSelector: React.FC = () => {
   const { t } = useTranslation();
@@ -37,19 +37,7 @@ export const TopicSelector: React.FC = () => {
           </Link>
         ))}
 
-        {/* Mixed session */}
-        <Link href="/practice/mixed" className="no-underline">
-          <Card className="flex flex-col gap-3 cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform h-full">
-            <div><ShuffleIcon size={40} weight="bold" /></div>
-            <div className="flex items-center gap-2">
-              <h2 className="memphis-heading text-xl">{t('practice.mixed')}</h2>
-            </div>
-            <p className="text-sm font-bold">{t('practice.mixedDesc')}</p>
-            <Button variant="primary" size="sm" className="mt-auto">
-              {t('practice.startButton')} <ArrowRightIcon size={13} weight="bold" className="inline ml-1" />
-            </Button>
-          </Card>
-        </Link>
+
       </div>
     </div>
   );

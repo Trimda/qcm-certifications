@@ -21,7 +21,7 @@ interface QcmContextValue {
   createNewQcm: (qcm: Omit<Qcm, 'id' | 'createdAt' | 'updatedAt'>) => Promise<Qcm>;
   editQcm: (id: string, updates: Partial<Qcm>) => Promise<Qcm>;
   removeQcm: (id: string) => Promise<void>;
-  startSession: (qcms: Qcm[]) => void;
+  startSession: (qcms: Qcm[], maxQuestions?: number) => void;
   submitAnswer: (questionId: string, optionId: string) => void;
   nextQuestion: () => void;
   finishSession: () => void;
@@ -66,13 +66,14 @@ export const QcmProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQcms(prev => prev.filter(q => q.id !== id));
   }, []);
 
-  const startSession = useCallback((selectedQcms: Qcm[]) => {
+  const startSession = useCallback((selectedQcms: Qcm[], maxQuestions?: number) => {
     const allQuestions = selectedQcms.flatMap(q => q.questions);
     // Shuffle questions
     const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+    const limited = maxQuestions ? shuffled.slice(0, maxQuestions) : shuffled;
     setSession({
       qcms: selectedQcms,
-      questions: shuffled,
+      questions: limited,
       currentIndex: 0,
       answers: {},
       isFinished: false,

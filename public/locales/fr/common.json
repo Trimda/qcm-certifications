@@ -69,7 +69,11 @@
     "correct": "Bonne réponse !",
     "wrong": "Mauvaise réponse",
     "noQcm": "Aucun QCM disponible pour ce thème.",
-    "backToTopics": "Retour aux thèmes"
+    "backToTopics": "Retour aux thèmes",
+    "bestScore": "Meilleur score",
+    "restart": "Recommencer",
+    "startMixed": "Session mixte",
+    "mixedTopicDesc": "Jusqu’à {{max}} questions mélangées de cette catégorie"
   },
   "dashboard": {
     "title": "Tableau de bord",

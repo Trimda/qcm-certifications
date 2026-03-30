@@ -7,7 +7,7 @@ import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { LockSimpleIcon } from '@phosphor-icons/react';
+import { LockSimpleIcon, TrophyIcon } from '@phosphor-icons/react';
 import type { Qcm, Topic } from '@/types';
 
 interface QcmListProps {
@@ -15,6 +15,7 @@ interface QcmListProps {
   onDelete?: (id: string) => void;
   onStart?: (qcm: Qcm) => void;
   showActions?: boolean;
+  bestScores?: Record<string, number>;
 }
 
 export const QcmList: React.FC<QcmListProps> = ({
@@ -22,6 +23,7 @@ export const QcmList: React.FC<QcmListProps> = ({
   onDelete,
   onStart,
   showActions = false,
+  bestScores = {},
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -53,10 +55,16 @@ export const QcmList: React.FC<QcmListProps> = ({
           <p className="text-xs font-black opacity-60">
             {qcm.questions.length} {t('admin.questions').toLowerCase()}
           </p>
+          {bestScores[qcm.id] !== undefined && (
+            <p className="text-xs font-black flex items-center gap-1 text-[var(--memphis-blue)]">
+              <TrophyIcon size={13} weight="bold" />
+              {t('practice.bestScore')} : {bestScores[qcm.id]}%
+            </p>
+          )}
           <div className="flex gap-2 flex-wrap">
             {onStart ? (
               <Button variant="primary" size="sm" onClick={() => onStart(qcm)}>
-                {t('practice.startButton')}
+                {bestScores[qcm.id] !== undefined ? t('practice.restart') : t('practice.startButton')}
               </Button>
             ) : (
               <Link href={`/practice/${qcm.topic}`}>

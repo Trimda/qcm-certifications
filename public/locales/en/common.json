@@ -69,7 +69,11 @@
     "correct": "Correct!",
     "wrong": "Wrong answer",
     "noQcm": "No QCM available for this topic.",
-    "backToTopics": "Back to Topics"
+    "backToTopics": "Back to Topics",
+    "bestScore": "Best score",
+    "restart": "Restart",
+    "startMixed": "Mixed session",
+    "mixedTopicDesc": "Up to {{max}} shuffled questions from this category"
   },
   "dashboard": {
     "title": "Dashboard",
