@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { RoleGuard } from '@/components/auth/RoleGuard';
 import { QuestionCard } from '@/components/qcm/QuestionCard';
@@ -21,13 +21,18 @@ export default function TopicPracticePage() {
   const topic = params.topic as Topic;
   const { t } = useTranslation();
   const { qcms, session, loadQcms, startSession, submitAnswer, nextQuestion, finishSession, resetSession } = useQcm();
-  const { scores, updateBestScore } = useBestScores();
+  const { scores, userRatings, updateBestScore, submitRating } = useBestScores();
+  const [avgRatings, setAvgRatings] = useState<Record<string, { avg: number; count: number }>>({});
 
   // Track which QCM or session was launched so we can retry/save score
   const activeQcmRef = useRef<{ qcms: Qcm[]; max?: number } | null>(null);
 
   useEffect(() => {
     void loadQcms(topic);
+    fetch('/api/ratings')
+      .then(r => (r.ok ? r.json() : Promise.resolve({})))
+      .then(data => setAvgRatings(data as Record<string, { avg: number; count: number }>))
+      .catch(() => { /* silent */ });
   }, [topic, loadQcms]);
 
   const handleStart = (qcm: Qcm) => {
@@ -55,6 +60,12 @@ export default function TopicPracticePage() {
     }
   };
 
+  // Defined only for single-QCM sessions (not mixed)
+  const activeSingleQcmId =
+    activeQcmRef.current?.qcms.length === 1 && !activeQcmRef.current?.max
+      ? activeQcmRef.current.qcms[0].id
+      : undefined;
+
   if (session) {
     if (session.isFinished) {
       return (
@@ -67,6 +78,11 @@ export default function TopicPracticePage() {
               backHref={`/practice/${topic}`}
               onBack={resetSession}
               onComplete={handleComplete}
+              qcmId={activeSingleQcmId}
+              userRating={activeSingleQcmId ? (userRatings[activeSingleQcmId] ?? 0) : 0}
+              onRate={activeSingleQcmId
+                ? (r) => { void submitRating(activeSingleQcmId, r); }
+                : undefined}
             />
           </div>
         </RoleGuard>
@@ -116,7 +132,7 @@ export default function TopicPracticePage() {
             </Button>
           </div>
         )}
-        <QcmList qcms={qcms} onStart={handleStart} bestScores={scores} />
+        <QcmList qcms={qcms} onStart={handleStart} bestScores={scores} avgRatings={avgRatings} />
       </div>
     </RoleGuard>
   );

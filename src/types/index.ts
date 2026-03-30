@@ -45,5 +45,6 @@ export interface UserScore {
   userId: string;
   qcmId: string;
   bestScore: number; // percentage 0-100
+  rating?: number;  // 1–5 stars
   updatedAt: string;
 }

@@ -6,6 +6,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { StarRating } from '@/components/ui/StarRating';
 import { CheckIcon, XIcon } from '@phosphor-icons/react';
 import type { Question } from '@/types';
 
@@ -16,6 +17,10 @@ interface ResultSummaryProps {
   backHref?: string;
   onBack?: () => void;
   onComplete?: (percentage: number) => void;
+  /** Only defined for single-QCM sessions — enables star rating */
+  qcmId?: string;
+  userRating?: number;
+  onRate?: (rating: number) => void;
 }
 
 export const ResultSummary: React.FC<ResultSummaryProps> = ({
@@ -25,6 +30,9 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
   backHref = '/practice',
   onBack,
   onComplete,
+  qcmId,
+  userRating = 0,
+  onRate,
 }) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -53,9 +61,20 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
       <div className={`memphis-heading text-6xl my-6 ${scoreColor}`}>
         {percentage}%
       </div>
-      <p className="font-bold text-lg mb-8">
+      <p className="font-bold text-lg mb-4">
         {correct} / {total}
       </p>
+
+      {/* Star rating — only for single-QCM sessions */}
+      {qcmId && (
+        <div className="flex flex-col items-center gap-2 mb-8 p-3 border-2 border-black bg-white">
+          <p className="font-black text-sm uppercase tracking-wide">{t('practice.rateQcm')}</p>
+          <StarRating value={userRating} onChange={onRate} size={28} />
+          {userRating > 0 && (
+            <p className="text-xs font-bold opacity-60">{t('practice.yourRating')} : {userRating}/5</p>
+          )}
+        </div>
+      )}
 
       <div className="flex flex-col gap-4 mb-6">
         {questions.map((q, i) => {

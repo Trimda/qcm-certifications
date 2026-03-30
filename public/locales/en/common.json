@@ -73,7 +73,9 @@
     "bestScore": "Best score",
     "restart": "Restart",
     "startMixed": "Mixed session",
-    "mixedTopicDesc": "Up to {{max}} shuffled questions from this category"
+    "mixedTopicDesc": "Up to {{max}} shuffled questions from this category",
+    "rateQcm": "Rate this QCM",
+    "yourRating": "Your rating"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -111,6 +113,9 @@
   "admin": {
     "users": "User Management",
     "qcms": "QCM Management",
+    "recentUsers": "Recent users",
+    "recentQcms": "Recent QCMs",
+    "seeAll": "See all",
     "deleteUser": "Delete",
     "editUser": "Edit",
     "role": "Role",
@@ -123,7 +128,11 @@
     "deleteError": "Error deleting item",
     "topic": "Topic",
     "questions": "Questions",
-    "title": "Title"
+    "title": "Title",
+    "creator": "Creator",
+    "avgRating": "Rating",
+    "noRating": "No ratings yet",
+    "lastModified": "Last modified"
   },
   "common": {
     "loading": "Loading...",

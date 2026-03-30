@@ -73,7 +73,9 @@
     "bestScore": "Meilleur score",
     "restart": "Recommencer",
     "startMixed": "Session mixte",
-    "mixedTopicDesc": "Jusqu’à {{max}} questions mélangées de cette catégorie"
+    "mixedTopicDesc": "Jusqu’à {{max}} questions mélangées de cette catégorie",
+    "rateQcm": "Notez ce QCM",
+    "yourRating": "Votre note"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -111,6 +113,9 @@
   "admin": {
     "users": "Gestion des utilisateurs",
     "qcms": "Gestion des QCMs",
+    "recentUsers": "Derniers utilisateurs",
+    "recentQcms": "Derniers QCMs",
+    "seeAll": "Voir tout",
     "deleteUser": "Supprimer",
     "editUser": "Modifier",
     "role": "Rôle",
@@ -123,7 +128,11 @@
     "deleteError": "Erreur lors de la suppression",
     "topic": "Thème",
     "questions": "Questions",
-    "title": "Titre"
+    "title": "Titre",
+    "creator": "Créateur",
+    "avgRating": "Note",
+    "noRating": "Aucune note",
+    "lastModified": "Modifié le"
   },
   "common": {
     "loading": "Chargement...",

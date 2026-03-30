@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { cookies } from 'next/headers';
@@ -18,62 +18,57 @@ async function getCurrentUser(): Promise<User | null> {
   if (!sessionCookie) return null;
   const userId = parseSessionCookie(sessionCookie.value);
   if (!userId) return null;
-  const users = readUsers();
-  return users.find(u => u.id === userId) ?? null;
+  return readUsers().find(u => u.id === userId) ?? null;
 }
 
-/** GET /api/scores — returns { [qcmId]: bestScore } for the current user */
+/** GET /api/scores - returns { [qcmId]: { bestScore, rating? } } for the current user */
 export async function GET(): Promise<NextResponse> {
   const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const scores = readScores().filter(s => s.userId === currentUser.id);
+  const result: Record<string, { bestScore: number; rating?: number }> = {};
+  for (const s of scores) {
+    result[s.qcmId] = { bestScore: s.bestScore, ...(s.rating ? { rating: s.rating } : {}) };
   }
-
-  const scores = readScores();
-  const userScores = scores.filter(s => s.userId === currentUser.id);
-
-  const result: Record<string, number> = {};
-  for (const s of userScores) {
-    result[s.qcmId] = s.bestScore;
-  }
-
   return NextResponse.json(result);
 }
 
-/** PATCH /api/scores — body: { qcmId: string, score: number }
- *  Only updates if the new score is strictly better than the stored best.
+/** PATCH /api/scores - body: { qcmId, score?, rating? }
+ *  score: only persisted if better than current best.
+ *  rating: always overwritten (user can change their mind).
  */
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const body = await request.json() as { qcmId?: string; score?: number };
-  const { qcmId, score } = body;
+  const body = await request.json() as { qcmId?: string; score?: number; rating?: number };
+  const { qcmId, score, rating } = body;
 
-  if (!qcmId || typeof score !== 'number' || score < 0 || score > 100) {
-    return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
-  }
+  if (!qcmId) return NextResponse.json({ error: 'Missing qcmId' }, { status: 400 });
+  if (score !== undefined && (typeof score !== 'number' || score < 0 || score > 100))
+    return NextResponse.json({ error: 'Invalid score' }, { status: 400 });
+  if (rating !== undefined && (typeof rating !== 'number' || rating < 1 || rating > 5))
+    return NextResponse.json({ error: 'Invalid rating' }, { status: 400 });
 
   const scores = readScores();
   const idx = scores.findIndex(s => s.userId === currentUser.id && s.qcmId === qcmId);
 
   if (idx === -1) {
-    // New entry
     scores.push({
       userId: currentUser.id,
       qcmId,
-      bestScore: score,
+      bestScore: score ?? 0,
+      ...(rating !== undefined ? { rating } : {}),
       updatedAt: new Date().toISOString(),
     });
-  } else if (score > scores[idx].bestScore) {
-    // Only update if improved
-    scores[idx].bestScore = score;
+  } else {
+    if (score !== undefined && score > scores[idx].bestScore) scores[idx].bestScore = score;
+    if (rating !== undefined) scores[idx].rating = rating;
     scores[idx].updatedAt = new Date().toISOString();
   }
 
   writeScores(scores);
-
-  return NextResponse.json({ qcmId, bestScore: scores[idx]?.bestScore ?? score });
+  const updated = scores.find(s => s.userId === currentUser.id && s.qcmId === qcmId)!;
+  return NextResponse.json({ qcmId: updated.qcmId, bestScore: updated.bestScore, rating: updated.rating });
 }

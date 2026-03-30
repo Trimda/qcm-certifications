@@ -5,62 +5,77 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useAuth } from '@/hooks/useAuth';
 
 const LS_KEY = 'qcm_best_scores';
+interface ServerEntry { bestScore: number; rating?: number; }
 
 /**
- * Persists best scores in src/data/scores.json via /api/scores for authenticated users.
- * Falls back to localStorage for guest (unauthenticated) users.
+ * Persists best scores + star ratings in src/data/scores.json via /api/scores
+ * for authenticated users. Falls back to localStorage for guests.
  */
 export const useBestScores = () => {
   const { currentUser } = useAuth();
   const isAuth = !!currentUser;
 
-  // Server-backed state for authenticated users
-  const [serverScores, setServerScores] = useState<Record<string, number>>({});
+  const [serverData, setServerData] = useState<Record<string, ServerEntry>>({});
   const [isLoading, setIsLoading] = useState(false);
-
-  // localStorage fallback for guests
   const [guestScores, setGuestScores] = useLocalStorage<Record<string, number>>(LS_KEY, {});
 
-  // Load scores from API when the user is authenticated
   useEffect(() => {
     if (!isAuth) return;
     setIsLoading(true);
     fetch('/api/scores')
-      .then(res => (res.ok ? (res.json() as Promise<Record<string, number>>) : {}))
-      .then(data => setServerScores(data as Record<string, number>))
-      .catch(() => setServerScores({}))
+      .then(res => (res.ok ? (res.json() as Promise<Record<string, ServerEntry>>) : Promise.resolve({})))
+      .then(data => setServerData(data as Record<string, ServerEntry>))
+      .catch(() => setServerData({}))
       .finally(() => setIsLoading(false));
   }, [isAuth]);
 
-  const scores = isAuth ? serverScores : guestScores;
+  // Backward-compat flat map: Record<qcmId, bestScore>
+  const scores: Record<string, number> = isAuth
+    ? Object.fromEntries(Object.entries(serverData).map(([k, v]) => [k, v.bestScore]))
+    : guestScores;
+
+  // User's own star ratings (authenticated only)
+  const userRatings: Record<string, number> = isAuth
+    ? Object.fromEntries(
+        Object.entries(serverData)
+          .filter(([, v]) => v.rating !== undefined && (v.rating ?? 0) > 0)
+          .map(([k, v]) => [k, v.rating!]),
+      )
+    : {};
 
   const updateBestScore = useCallback(
     async (qcmId: string, percentage: number, current: Record<string, number>) => {
       if (!isAuth) {
-        // Guest: persist in localStorage only
-        setGuestScores({
-          ...current,
-          [qcmId]: Math.max(percentage, current[qcmId] ?? 0),
-        });
+        setGuestScores({ ...current, [qcmId]: Math.max(percentage, current[qcmId] ?? 0) });
         return;
       }
-
-      // Authenticated: optimistic update then persist to API
       const newBest = Math.max(percentage, current[qcmId] ?? 0);
-      setServerScores(prev => ({ ...prev, [qcmId]: newBest }));
-
+      setServerData(prev => ({ ...prev, [qcmId]: { ...(prev[qcmId] ?? {}), bestScore: newBest } }));
       try {
         await fetch('/api/scores', {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ qcmId, score: percentage }),
         });
-      } catch {
-        // Silent fail — optimistic state is already updated
-      }
+      } catch { /* silent */ }
     },
     [isAuth, setGuestScores],
   );
 
-  return { scores, updateBestScore, isLoading };
+  const submitRating = useCallback(
+    async (qcmId: string, rating: number) => {
+      if (!isAuth) return;
+      setServerData(prev => ({ ...prev, [qcmId]: { ...(prev[qcmId] ?? { bestScore: 0 }), rating } }));
+      try {
+        await fetch('/api/scores', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ qcmId, rating }),
+        });
+      } catch { /* silent */ }
+    },
+    [isAuth],
+  );
+
+  return { scores, userRatings, updateBestScore, submitRating, isLoading };
 };

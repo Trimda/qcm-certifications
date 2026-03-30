@@ -7,6 +7,7 @@ import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { StarRating } from '@/components/ui/StarRating';
 import { LockSimpleIcon, TrophyIcon } from '@phosphor-icons/react';
 import type { Qcm, Topic } from '@/types';
 
@@ -16,6 +17,7 @@ interface QcmListProps {
   onStart?: (qcm: Qcm) => void;
   showActions?: boolean;
   bestScores?: Record<string, number>;
+  avgRatings?: Record<string, { avg: number; count: number }>;
 }
 
 export const QcmList: React.FC<QcmListProps> = ({
@@ -24,6 +26,7 @@ export const QcmList: React.FC<QcmListProps> = ({
   onStart,
   showActions = false,
   bestScores = {},
+  avgRatings = {},
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -51,6 +54,14 @@ export const QcmList: React.FC<QcmListProps> = ({
               </span>
             )}
           </div>
+          {avgRatings[qcm.id] && (
+            <div className="flex items-center gap-2">
+              <StarRating value={Math.round(avgRatings[qcm.id].avg)} size={14} />
+              <span className="text-xs font-bold opacity-60">
+                {avgRatings[qcm.id].avg}/5 ({avgRatings[qcm.id].count})
+              </span>
+            </div>
+          )}
           <p className="text-sm font-bold flex-1">{resolveText(qcm.description, i18n.language)}</p>
           <p className="text-xs font-black opacity-60">
             {qcm.questions.length} {t('admin.questions').toLowerCase()}

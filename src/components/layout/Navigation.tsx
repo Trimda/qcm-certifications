@@ -51,7 +51,7 @@ export const Navigation: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick
 
         {currentUser?.role === 'admin' && (
           <li>
-            <Link href="/admin/users" className={linkClass} onClick={onLinkClick}>
+            <Link href="/admin" className={linkClass} onClick={onLinkClick}>
               {t('nav.admin')}
             </Link>
           </li>
