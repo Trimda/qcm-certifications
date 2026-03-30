@@ -7,17 +7,20 @@ import { resolveText } from '@/lib/localizedText';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { LockSimpleIcon } from '@phosphor-icons/react';
 import type { Qcm, Topic } from '@/types';
 
 interface QcmListProps {
   qcms: Qcm[];
   onDelete?: (id: string) => void;
+  onStart?: (qcm: Qcm) => void;
   showActions?: boolean;
 }
 
 export const QcmList: React.FC<QcmListProps> = ({
   qcms,
   onDelete,
+  onStart,
   showActions = false,
 }) => {
   const { t, i18n } = useTranslation();
@@ -39,17 +42,29 @@ export const QcmList: React.FC<QcmListProps> = ({
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="memphis-heading text-lg flex-1">{resolveText(qcm.title, i18n.language)}</h3>
             <Badge variant={qcm.topic}>{qcm.topic.toUpperCase()}</Badge>
+            {qcm.isPrivate && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-black text-white text-xs font-black border-2 border-black">
+                <LockSimpleIcon size={12} weight="bold" />
+                {t('contributor.private')}
+              </span>
+            )}
           </div>
           <p className="text-sm font-bold flex-1">{resolveText(qcm.description, i18n.language)}</p>
           <p className="text-xs font-black opacity-60">
-            {qcm.questions.length} questions
+            {qcm.questions.length} {t('admin.questions').toLowerCase()}
           </p>
           <div className="flex gap-2 flex-wrap">
-            <Link href={`/practice/${qcm.topic}`}>
-              <Button variant="ghost" size="sm">
+            {onStart ? (
+              <Button variant="primary" size="sm" onClick={() => onStart(qcm)}>
                 {t('practice.startButton')}
               </Button>
-            </Link>
+            ) : (
+              <Link href={`/practice/${qcm.topic}`}>
+                <Button variant="ghost" size="sm">
+                  {t('practice.startButton')}
+                </Button>
+              </Link>
+            )}
             {showActions && (
               <>
                 <Link href={`/contributor/qcm/${qcm.id}/edit`}>

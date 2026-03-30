@@ -37,6 +37,7 @@ export interface Qcm {
   topic: Topic;
   questions: Question[];
   createdBy: string; // User.id
+  isPrivate?: boolean;
   createdAt: string;
   updatedAt: string;
 }

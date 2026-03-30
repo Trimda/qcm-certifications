@@ -2,9 +2,13 @@ import type { Qcm, Topic } from '@/types';
 
 const BASE_URL = '/api/qcms';
 
-/** Fetch all QCMs, optionally filtered by topic */
-export const fetchQcms = async (topic?: Topic): Promise<Qcm[]> => {
-  const url = topic ? `${BASE_URL}?topic=${topic}` : BASE_URL;
+/** Fetch all QCMs, optionally filtered by topic and/or creator */
+export const fetchQcms = async (topic?: Topic, createdBy?: string): Promise<Qcm[]> => {
+  const params = new URLSearchParams();
+  if (topic) params.set('topic', topic);
+  if (createdBy) params.set('createdBy', createdBy);
+  const query = params.toString();
+  const url = query ? `${BASE_URL}?${query}` : BASE_URL;
   const res = await fetch(url);
   if (!res.ok) throw new Error('Failed to fetch QCMs');
   return res.json() as Promise<Qcm[]>;

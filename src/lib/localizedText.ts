@@ -8,5 +8,5 @@ export const getLang = (language: string): SupportedLang => {
 /** Resolve a LocalizedText object to a plain string for the given language. */
 export const resolveText = (text: LocalizedText, language: string): string => {
   const lang = getLang(language);
-  return text[lang] ?? text.fr ?? text.en ?? '';
+  return text[lang] || text.fr || text.en || '';
 };

@@ -35,11 +35,18 @@ export const Navigation: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick
         )}
 
         {currentUser && (currentUser.role === 'contributor' || currentUser.role === 'admin') && (
-          <li>
-            <Link href="/contributor/qcm/new" className={linkClass} onClick={onLinkClick}>
-              {t('nav.createQcm')}
-            </Link>
-          </li>
+          <>
+            <li>
+              <Link href="/my-qcms" className={linkClass} onClick={onLinkClick}>
+                {t('nav.myQcms')}
+              </Link>
+            </li>
+            <li>
+              <Link href="/contributor/qcm/new" className={linkClass} onClick={onLinkClick}>
+                {t('nav.createQcm')}
+              </Link>
+            </li>
+          </>
         )}
 
         {currentUser?.role === 'admin' && (
