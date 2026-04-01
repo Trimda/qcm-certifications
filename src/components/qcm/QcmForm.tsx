@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { generateId } from '@/lib/auth';
+import { QcmImportZone } from '@/components/qcm/QcmImportZone';
 import type { Qcm, Question, AnswerOption, Topic, LocalizedText } from '@/types';
 
 type LangMode = 'fr' | 'en' | 'both';
@@ -55,6 +56,20 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
   const [questions, setQuestions] = useState<Question[]>(initialQcm?.questions ?? [emptyQuestion()]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [importHasData, setImportHasData] = useState(false);
+
+  const handleImported = (qcm: Qcm) => {
+    setTitle(qcm.title);
+    setDescription(qcm.description);
+    setTopic(qcm.topic);
+    setIsPrivate(qcm.isPrivate ?? false);
+    setQuestions(qcm.questions.map(q => ({
+      ...q,
+      id: q.id ?? generateId('q'),
+    })));
+    setLangMode(detectLangMode(qcm));
+    setImportHasData(true);
+  };
 
   const showFr = langMode === 'fr' || langMode === 'both';
   const showEn = langMode === 'en' || langMode === 'both';
@@ -129,6 +144,13 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
       <h1 className="memphis-heading text-3xl">
         {mode === 'create' ? t('contributor.createQcm') : t('contributor.editQcm')}
       </h1>
+
+      {/* Import zone — create mode only */}
+      {mode === 'create' && (
+        <Card>
+          <QcmImportZone onImported={handleImported} hasExistingData={importHasData} />
+        </Card>
+      )}
 
       {/* Language mode selector */}
       <Card>
@@ -307,9 +329,15 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
         </Card>
       ))}
 
-      <Button type="button" variant="ghost" onClick={addQuestion}>
+      <Button type="button" variant="ghost" onClick={addQuestion} disabled={questions.length >= 40}>
         + {t('contributor.addQuestion')}
       </Button>
+
+      {questions.length >= 40 && (
+        <p className="text-sm font-bold text-[var(--memphis-red)]">
+          {t('contributor.maxQuestionsReached')}
+        </p>
+      )}
 
       {error && <p className="text-[var(--memphis-red)] font-bold">{error}</p>}
 

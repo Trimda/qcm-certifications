@@ -72,6 +72,13 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
+    if (!Array.isArray(newQcm.questions) || newQcm.questions.length === 0) {
+      return NextResponse.json({ error: 'Le QCM doit contenir au moins une question.' }, { status: 400 });
+    }
+    if (newQcm.questions.length > 40) {
+      return NextResponse.json({ error: `Le QCM ne peut pas contenir plus de 40 questions.` }, { status: 400 });
+    }
+
     qcms.push(newQcm);
     writeQcms(qcms);
 

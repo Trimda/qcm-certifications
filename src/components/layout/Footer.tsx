@@ -27,6 +27,9 @@ export const Footer: React.FC = () => {
           <Link href="/" className="text-white font-bold hover:text-[var(--memphis-yellow)] transition-colors">
             {t('nav.home')}
           </Link>
+          <Link href="/about" className="text-white font-bold hover:text-[var(--memphis-yellow)] transition-colors">
+            {t('nav.about')}
+          </Link>
           {!currentUser && (
             <Link href="/login" className="text-white font-bold hover:text-[var(--memphis-yellow)] transition-colors">
               {t('nav.login')}

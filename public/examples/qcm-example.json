@@ -1,0 +1,42 @@
+[
+  {
+    "title": {
+      "fr": "Exemple de QCM SCRUM",
+      "en": "Sample SCRUM QCM"
+    },
+    "description": {
+      "fr": "Un QCM d'exemple sur le framework SCRUM.",
+      "en": "A sample QCM about the SCRUM framework."
+    },
+    "topic": "scrum",
+    "isPrivate": false,
+    "questions": [
+      {
+        "text": {
+          "fr": "Quelle est la durée maximale d'un Sprint ?",
+          "en": "What is the maximum duration of a Sprint?"
+        },
+        "options": [
+          { "id": "a", "text": { "fr": "1 semaine", "en": "1 week" } },
+          { "id": "b", "text": { "fr": "2 semaines", "en": "2 weeks" } },
+          { "id": "c", "text": { "fr": "4 semaines", "en": "4 weeks" } },
+          { "id": "d", "text": { "fr": "8 semaines", "en": "8 weeks" } }
+        ],
+        "correctAnswer": "c"
+      },
+      {
+        "text": {
+          "fr": "Qui est responsable du Product Backlog ?",
+          "en": "Who is responsible for the Product Backlog?"
+        },
+        "options": [
+          { "id": "a", "text": { "fr": "Scrum Master", "en": "Scrum Master" } },
+          { "id": "b", "text": { "fr": "Product Owner", "en": "Product Owner" } },
+          { "id": "c", "text": { "fr": "L'équipe de développement", "en": "Development Team" } },
+          { "id": "d", "text": { "fr": "Les parties prenantes", "en": "Stakeholders" } }
+        ],
+        "correctAnswer": "b"
+      }
+    ]
+  }
+]

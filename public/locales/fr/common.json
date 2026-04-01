@@ -13,7 +13,8 @@
     "account": "Mon compte",
     "login": "Connexion",
     "register": "Inscription",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "about": "À propos"
   },
   "auth": {
     "loginTitle": "Connexion",
@@ -94,6 +95,7 @@
     "saveButton": "Enregistrer",
     "addQuestion": "Ajouter une question",
     "deleteQuestion": "Supprimer",
+    "maxQuestionsReached": "Limite atteinte : un QCM ne peut pas contenir plus de 40 questions.",
     "titleLabel": "Titre",
     "descriptionLabel": "Description",
     "topicLabel": "Thème",
@@ -108,7 +110,22 @@
     "isPrivateLabel": "QCM privé (visible uniquement par moi)",
     "private": "Privé",
     "saveSuccess": "QCM enregistré avec succès",
-    "saveError": "Erreur lors de la sauvegarde"
+    "saveError": "Erreur lors de la sauvegarde",
+    "import": {
+      "title": "Importer un fichier",
+      "hint": "Importez un fichier JSON ou CSV pour pré-remplir le formulaire automatiquement.",
+      "linkAbout": "Voir les formats acceptés",
+      "dropzone": "Glissez-déposez votre fichier ici ou cliquez pour parcourir",
+      "dragActive": "Déposez votre fichier ici",
+      "errorType": "Type de fichier invalide. Seuls les fichiers .json et .csv sont acceptés.",
+      "errorStructure": "Structure du fichier invalide.",
+      "errorServer": "Erreur lors de la validation du fichier. Vérifiez sa structure et réessayez.",
+      "remove": "Supprimer le fichier",
+      "importing": "Validation en cours…",
+      "success": "{{count}} question(s) chargée(s) avec succès.",
+      "changeFile": "Changer de fichier",
+      "confirmOverwrite": "Le formulaire contient déjà des données. Les remplacer par le nouveau fichier ?"
+    }
   },
   "admin": {
     "users": "Gestion des utilisateurs",
@@ -148,6 +165,15 @@
     "close": "Fermer",
     "langFr": "FR",
     "langEn": "EN"
+  },
+  "about": {
+    "title": "À propos",
+    "presentation": "Présentation",
+    "themes": "Thèmes disponibles",
+    "importSection": "Importer des QCMs",
+    "downloadJson": "Télécharger l'exemple JSON",
+    "downloadCsv": "Télécharger l'exemple CSV",
+    "validationRules": "Règles de validation"
   },
   "account": {
     "title": "Mon compte",

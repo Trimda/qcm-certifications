@@ -13,7 +13,8 @@
     "account": "My Account",
     "login": "Login",
     "register": "Register",
-    "logout": "Logout"
+    "logout": "Logout",
+    "about": "About"
   },
   "auth": {
     "loginTitle": "Login",
@@ -94,6 +95,7 @@
     "saveButton": "Save",
     "addQuestion": "Add Question",
     "deleteQuestion": "Delete",
+    "maxQuestionsReached": "Limit reached: a QCM cannot contain more than 40 questions.",
     "titleLabel": "Title",
     "descriptionLabel": "Description",
     "topicLabel": "Topic",
@@ -108,7 +110,22 @@
     "isPrivateLabel": "Private QCM (visible only to me)",
     "private": "Private",
     "saveSuccess": "QCM saved successfully",
-    "saveError": "Error saving QCM"
+    "saveError": "Error saving QCM",
+    "import": {
+      "title": "Import a file",
+      "hint": "Upload a JSON or CSV file to automatically pre-fill the form.",
+      "linkAbout": "See accepted formats",
+      "dropzone": "Drag and drop your file here or click to browse",
+      "dragActive": "Drop your file here",
+      "errorType": "Invalid file type. Only .json and .csv files are accepted.",
+      "errorStructure": "Invalid file structure.",
+      "errorServer": "Error validating the file. Please check its structure and try again.",
+      "remove": "Remove file",
+      "importing": "Validating…",
+      "success": "{{count}} question(s) loaded successfully.",
+      "changeFile": "Change file",
+      "confirmOverwrite": "The form already has data. Replace it with the new file?"
+    }
   },
   "admin": {
     "users": "User Management",
@@ -148,6 +165,15 @@
     "close": "Close",
     "langFr": "FR",
     "langEn": "EN"
+  },
+  "about": {
+    "title": "About",
+    "presentation": "Overview",
+    "themes": "Available Topics",
+    "importSection": "Import QCMs",
+    "downloadJson": "Download JSON example",
+    "downloadCsv": "Download CSV example",
+    "validationRules": "Validation rules"
   },
   "account": {
     "title": "My Account",
