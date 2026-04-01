@@ -213,7 +213,6 @@ h1, h2, h3 {
 
 /* ---- Answer Options ---- */
 .memphis-answer {
-  display: block;
   width: 100%;
   text-align: left;
   padding: 0.75rem 1rem;

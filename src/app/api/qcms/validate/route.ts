@@ -99,11 +99,25 @@ function validateQcm(data: unknown): { error: string } | { qcm: Qcm } {
       if (optErr) return { error: optErr };
     }
 
-    if (!VALID_OPTION_IDS.includes(q.correctAnswer as string)) {
-      return {
-        error: `${qLabel} : "correctAnswer" doit être l'une des valeurs : ${VALID_OPTION_IDS.join(', ')}. Reçu : "${String(q.correctAnswer)}"`,
-      };
+    const correctArr: string[] = Array.isArray(q.correctAnswer)
+      ? (q.correctAnswer as string[])
+      : [q.correctAnswer as string];
+    if (correctArr.length === 0) {
+      return { error: `${qLabel} : "correctAnswer" ne peut pas être vide.` };
     }
+    for (const ca of correctArr) {
+      if (!VALID_OPTION_IDS.includes(ca)) {
+        return {
+          error: `${qLabel} : "correctAnswer" contient une valeur invalide : "${ca}". Valeurs acceptées : ${VALID_OPTION_IDS.join(', ')}.`,
+        };
+      }
+    }
+  }
+
+  // Validate answerMode if present
+  const validAnswerModes = ['single', 'multiple', 'mixed'];
+  if (obj.answerMode !== undefined && !validAnswerModes.includes(obj.answerMode as string)) {
+    return { error: `"answerMode" doit être 'single', 'multiple' ou 'mixed'. Reçu : "${String(obj.answerMode)}"` };
   }
 
   // Build a normalized Qcm (without id/createdBy/createdAt — those are added at creation time)
@@ -111,6 +125,7 @@ function validateQcm(data: unknown): { error: string } | { qcm: Qcm } {
     title: obj.title as LocalizedText,
     description: obj.description as LocalizedText,
     topic: obj.topic as Topic,
+    answerMode: (obj.answerMode as 'single' | 'multiple' | 'mixed' | undefined) ?? 'single',
     isPrivate: obj.isPrivate === true,
     questions: (obj.questions as Record<string, unknown>[]).map((q, i) => ({
       id: (q.id as string | undefined) ?? `q-import-${i + 1}`,
@@ -119,7 +134,8 @@ function validateQcm(data: unknown): { error: string } | { qcm: Qcm } {
         id: opt.id as string,
         text: opt.text as LocalizedText,
       })) as AnswerOption[],
-      correctAnswer: q.correctAnswer as string,
+      correctAnswer: q.correctAnswer as string | string[],
+      isMultiple: (q.isMultiple as boolean | undefined) ?? false,
     })) as Question[],
   };
 

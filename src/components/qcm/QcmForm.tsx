@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { generateId } from '@/lib/auth';
 import { QcmImportZone } from '@/components/qcm/QcmImportZone';
-import type { Qcm, Question, AnswerOption, Topic, LocalizedText } from '@/types';
+import type { Qcm, Question, AnswerOption, Topic, LocalizedText, AnswerMode } from '@/types';
 
 type LangMode = 'fr' | 'en' | 'both';
 
@@ -21,7 +21,7 @@ interface QcmFormProps {
 
 const emptyLocalizedText = (): LocalizedText => ({ fr: '', en: '' });
 
-const emptyQuestion = (): Question => ({
+const emptyQuestion = (isMultiple = false): Question => ({
   id: generateId('q'),
   text: emptyLocalizedText(),
   options: [
@@ -30,7 +30,8 @@ const emptyQuestion = (): Question => ({
     { id: 'c', text: emptyLocalizedText() },
     { id: 'd', text: emptyLocalizedText() },
   ],
-  correctAnswer: 'a',
+  correctAnswer: isMultiple ? ['a'] : 'a',
+  isMultiple,
 });
 
 const detectLangMode = (qcm?: Qcm): LangMode => {
@@ -57,12 +58,56 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [importHasData, setImportHasData] = useState(false);
+  const [answerMode, setAnswerMode] = useState<AnswerMode>(initialQcm?.answerMode ?? 'single');
+
+  const handleAnswerModeChange = (mode: AnswerMode) => {
+    setAnswerMode(mode);
+    if (mode === 'single') {
+      setQuestions(prev => prev.map(q => ({
+        ...q,
+        isMultiple: false,
+        correctAnswer: Array.isArray(q.correctAnswer) ? (q.correctAnswer[0] ?? 'a') : q.correctAnswer,
+      })));
+    } else if (mode === 'multiple') {
+      setQuestions(prev => prev.map(q => ({
+        ...q,
+        isMultiple: true,
+        correctAnswer: Array.isArray(q.correctAnswer) ? q.correctAnswer : [q.correctAnswer],
+      })));
+    }
+    // 'mixed': preserve individual question settings
+  };
+
+  const updateIsMultiple = (index: number, value: boolean) => {
+    setQuestions(prev => prev.map((q, i) => {
+      if (i !== index) return q;
+      if (!value) {
+        const correct = Array.isArray(q.correctAnswer) ? (q.correctAnswer[0] ?? 'a') : q.correctAnswer;
+        return { ...q, isMultiple: false, correctAnswer: correct };
+      }
+      const correct = Array.isArray(q.correctAnswer) ? q.correctAnswer : [q.correctAnswer];
+      return { ...q, isMultiple: true, correctAnswer: correct };
+    }));
+  };
+
+  const toggleCorrectAnswer = (index: number, optionId: string) => {
+    setQuestions(prev => prev.map((q, i) => {
+      if (i !== index) return q;
+      const current = Array.isArray(q.correctAnswer) ? q.correctAnswer : [q.correctAnswer];
+      const next = current.includes(optionId)
+        ? current.filter(id => id !== optionId)
+        : [...current, optionId];
+      // Prevent empty selection
+      return { ...q, correctAnswer: next.length === 0 ? [optionId] : next };
+    }));
+  };
 
   const handleImported = (qcm: Qcm) => {
     setTitle(qcm.title);
     setDescription(qcm.description);
     setTopic(qcm.topic);
     setIsPrivate(qcm.isPrivate ?? false);
+    setAnswerMode(qcm.answerMode ?? 'single');
     setQuestions(qcm.questions.map(q => ({
       ...q,
       id: q.id ?? generateId('q'),
@@ -75,7 +120,7 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
   const showEn = langMode === 'en' || langMode === 'both';
 
   const addQuestion = () => {
-    setQuestions(prev => [...prev, emptyQuestion()]);
+    setQuestions(prev => [...prev, emptyQuestion(answerMode === 'multiple')]);
   };
 
   const removeQuestion = (index: number) => {
@@ -118,12 +163,13 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
           title,
           description,
           topic,
+          answerMode,
           isPrivate,
           questions,
           createdBy: currentUser.id,
         });
       } else if (initialQcm) {
-        await editQcm(initialQcm.id, { title, description, topic, isPrivate, questions });
+        await editQcm(initialQcm.id, { title, description, topic, answerMode, isPrivate, questions });
       }
       router.push('/my-qcms');
     } catch {
@@ -164,6 +210,33 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
                 onClick={() => setLangMode(value)}
                 className={`px-4 py-2 font-black text-sm border-2 border-black transition-colors ${
                   langMode === value
+                    ? 'bg-black text-white'
+                    : 'bg-white text-black hover:bg-gray-100'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </Card>
+
+      {/* Answer mode selector */}
+      <Card>
+        <div className="flex flex-col gap-3">
+          <p className="font-black text-sm uppercase tracking-wide">{t('contributor.answerModeLabel')}</p>
+          <div className="flex gap-2 flex-wrap">
+            {([
+              { value: 'single' as AnswerMode, label: t('contributor.answerModeSingle') },
+              { value: 'multiple' as AnswerMode, label: t('contributor.answerModeMultiple') },
+              { value: 'mixed' as AnswerMode, label: t('contributor.answerModeMixed') },
+            ]).map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => handleAnswerModeChange(value)}
+                className={`px-4 py-2 font-black text-sm border-2 border-black transition-colors ${
+                  answerMode === value
                     ? 'bg-black text-white'
                     : 'bg-white text-black hover:bg-gray-100'
                 }`}
@@ -310,20 +383,55 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
                 )}
               </div>
             ))}
-            <div className="flex flex-col gap-1">
-              <label htmlFor={`q-${qIndex}-correct`} className="font-black text-sm uppercase tracking-wide">
-                {t('contributor.correctAnswer')}
+            {/* isMultiple toggle — visible only in mixed mode */}
+            {answerMode === 'mixed' && (
+              <label className="flex items-center gap-3 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={question.isMultiple ?? false}
+                  onChange={e => updateIsMultiple(qIndex, e.target.checked)}
+                  className="w-4 h-4 border-2 border-black accent-black"
+                />
+                <span className="font-black text-sm">{t('contributor.isMultipleLabel')}</span>
               </label>
-              <select
-                id={`q-${qIndex}-correct`}
-                value={question.correctAnswer}
-                onChange={e => updateCorrectAnswer(qIndex, e.target.value)}
-                className="memphis-input"
-              >
-                {question.options.map((opt: AnswerOption) => (
-                  <option key={opt.id} value={opt.id}>{opt.id.toUpperCase()}</option>
-                ))}
-              </select>
+            )}
+
+            {/* Correct answer selector */}
+            <div className="flex flex-col gap-2">
+              <p className="font-black text-sm uppercase tracking-wide">
+                {question.isMultiple ? t('contributor.correctAnswersLabel') : t('contributor.correctAnswer')}
+              </p>
+              {question.isMultiple ? (
+                <div className="flex gap-4 flex-wrap">
+                  {question.options.map((opt: AnswerOption) => {
+                    const correctArr = Array.isArray(question.correctAnswer)
+                      ? question.correctAnswer
+                      : [question.correctAnswer];
+                    return (
+                      <label key={opt.id} className="flex items-center gap-2 cursor-pointer font-bold select-none">
+                        <input
+                          type="checkbox"
+                          checked={correctArr.includes(opt.id)}
+                          onChange={() => toggleCorrectAnswer(qIndex, opt.id)}
+                          className="w-4 h-4 border-2 border-black accent-black"
+                        />
+                        {opt.id.toUpperCase()}
+                      </label>
+                    );
+                  })}
+                </div>
+              ) : (
+                <select
+                  id={`q-${qIndex}-correct`}
+                  value={Array.isArray(question.correctAnswer) ? (question.correctAnswer[0] ?? 'a') : question.correctAnswer}
+                  onChange={e => updateCorrectAnswer(qIndex, e.target.value)}
+                  className="memphis-input"
+                >
+                  {question.options.map((opt: AnswerOption) => (
+                    <option key={opt.id} value={opt.id}>{opt.id.toUpperCase()}</option>
+                  ))}
+                </select>
+              )}
             </div>
           </div>
         </Card>

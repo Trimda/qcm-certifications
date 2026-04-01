@@ -76,7 +76,9 @@
     "startMixed": "Session mixte",
     "mixedTopicDesc": "Jusqu’à {{max}} questions mélangées de cette catégorie",
     "rateQcm": "Notez ce QCM",
-    "yourRating": "Votre note"
+    "yourRating": "Votre note",
+    "selectOneAnswer": "Sélectionnez une réponse.",
+    "selectMultipleAnswers": "Sélectionnez toutes les bonnes réponses (plusieurs choix possibles)."
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -111,6 +113,12 @@
     "private": "Privé",
     "saveSuccess": "QCM enregistré avec succès",
     "saveError": "Erreur lors de la sauvegarde",
+    "answerModeLabel": "Mode de réponse",
+    "answerModeSingle": "Réponse unique",
+    "answerModeMultiple": "Réponses multiples",
+    "answerModeMixed": "Mixte (par question)",
+    "isMultipleLabel": "Question à réponses multiples",
+    "correctAnswersLabel": "Bonnes réponses",
     "import": {
       "title": "Importer un fichier",
       "hint": "Importez un fichier JSON ou CSV pour pré-remplir le formulaire automatiquement.",

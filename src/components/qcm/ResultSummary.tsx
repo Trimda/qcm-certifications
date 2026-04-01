@@ -9,10 +9,11 @@ import { Button } from '@/components/ui/Button';
 import { StarRating } from '@/components/ui/StarRating';
 import { CheckIcon, XIcon } from '@phosphor-icons/react';
 import type { Question } from '@/types';
+import { isAnswerCorrect } from '@/lib/questionHelpers';
 
 interface ResultSummaryProps {
   questions: Question[];
-  answers: Record<string, string>;
+  answers: Record<string, string[]>;
   onRetry: () => void;
   backHref?: string;
   onBack?: () => void;
@@ -38,7 +39,7 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
   const router = useRouter();
   const completedRef = useRef(false);
 
-  const correct = questions.filter(q => answers[q.id] === q.correctAnswer).length;
+  const correct = questions.filter(q => isAnswerCorrect(q, answers[q.id] ?? [])).length;
   const total = questions.length;
   const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
 
@@ -78,7 +79,7 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
 
       <div className="flex flex-col gap-4 mb-6">
         {questions.map((q, i) => {
-          const isCorrect = answers[q.id] === q.correctAnswer;
+          const isCorrect = isAnswerCorrect(q, answers[q.id] ?? []);
           return (
             <div
               key={q.id}

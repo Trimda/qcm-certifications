@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/Button';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { useTranslation } from '@/hooks/useTranslation';
 import { resolveText } from '@/lib/localizedText';
+import { getCorrectAnswers, isAnswerCorrect } from '@/lib/questionHelpers';
 
 interface QuestionCardProps {
   question: Question;
   questionNumber: number;
   totalQuestions: number;
   isLast?: boolean;
-  onAnswer: (optionId: string) => void;
+  onAnswer: (optionIds: string[]) => void;
   onNext: () => void;
 }
 
@@ -26,36 +27,48 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   onNext,
 }) => {
   const { t, i18n } = useTranslation();
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
 
+  const isMultiple = question.isMultiple === true;
   const questionText = resolveText(question.text, i18n.language);
+  const correctAnswers = getCorrectAnswers(question);
 
   const handleSelect = (optionId: string) => {
     if (submitted) return;
-    setSelectedOption(optionId);
+    if (isMultiple) {
+      setSelectedOptions(prev =>
+        prev.includes(optionId) ? prev.filter(id => id !== optionId) : [...prev, optionId]
+      );
+    } else {
+      setSelectedOptions([optionId]);
+    }
   };
 
   const handleSubmit = () => {
-    if (!selectedOption || submitted) return;
+    if (selectedOptions.length === 0 || submitted) return;
     setSubmitted(true);
-    onAnswer(selectedOption);
+    onAnswer(selectedOptions);
   };
 
   const handleNext = () => {
-    setSelectedOption(null);
+    setSelectedOptions([]);
     setSubmitted(false);
     onNext();
   };
 
   const getOptionState = (optionId: string) => {
     if (!submitted) {
-      return selectedOption === optionId ? 'selected' : 'default';
+      return selectedOptions.includes(optionId) ? 'selected' : 'default';
     }
-    if (optionId === question.correctAnswer) return 'correct';
-    if (optionId === selectedOption) return 'wrong';
+    const isCorrectOption = correctAnswers.includes(optionId);
+    const wasSelected = selectedOptions.includes(optionId);
+    if (isCorrectOption) return 'correct';
+    if (wasSelected) return 'wrong';
     return 'default';
   };
+
+  const answeredCorrectly = submitted && isAnswerCorrect(question, selectedOptions);
 
   return (
     <div className="memphis-card p-6 flex flex-col gap-5">
@@ -67,6 +80,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
 
       <h2 className="memphis-heading text-xl">{questionText}</h2>
 
+      {/* Instruction label */}
+      <p className="text-sm font-bold opacity-70 -mt-2">
+        {isMultiple ? t('practice.selectMultipleAnswers') : t('practice.selectOneAnswer')}
+      </p>
+
       <div className="flex flex-col gap-3">
         {question.options.map(option => (
           <AnswerOption
@@ -75,13 +93,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             state={getOptionState(option.id)}
             disabled={submitted}
             onClick={handleSelect}
+            inputType={isMultiple ? 'checkbox' : 'radio'}
           />
         ))}
       </div>
 
       {submitted && (
-        <p className={`font-black text-sm ${selectedOption === question.correctAnswer ? 'text-green-700' : 'text-[var(--memphis-red)]'}`}>
-          {selectedOption === question.correctAnswer ? t('practice.correct') : t('practice.wrong')}
+        <p className={`font-black text-sm ${answeredCorrectly ? 'text-green-700' : 'text-[var(--memphis-red)]'}`}>
+          {answeredCorrectly ? t('practice.correct') : t('practice.wrong')}
         </p>
       )}
 
@@ -90,7 +109,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           <Button
             variant="primary"
             onClick={handleSubmit}
-            disabled={!selectedOption}
+            disabled={selectedOptions.length === 0}
           >
             {t('practice.submitAnswer')}
           </Button>

@@ -100,7 +100,7 @@ export default function TopicPracticePage() {
             questionNumber={session.currentIndex + 1}
             totalQuestions={session.questions.length}
             isLast={isLast}
-            onAnswer={(optionId) => submitAnswer(currentQuestion.id, optionId)}
+            onAnswer={(optionIds) => submitAnswer(currentQuestion.id, optionIds)}
             onNext={() => {
               if (isLast) finishSession();
               else nextQuestion();

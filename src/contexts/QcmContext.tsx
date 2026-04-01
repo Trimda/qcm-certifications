@@ -8,7 +8,7 @@ interface PracticeSession {
   qcms: Qcm[];
   questions: Question[];
   currentIndex: number;
-  answers: Record<string, string>; // questionId -> selectedOptionId
+  answers: Record<string, string[]>; // questionId -> selected option ids
   isFinished: boolean;
 }
 
@@ -22,7 +22,7 @@ interface QcmContextValue {
   editQcm: (id: string, updates: Partial<Qcm>) => Promise<Qcm>;
   removeQcm: (id: string) => Promise<void>;
   startSession: (qcms: Qcm[], maxQuestions?: number) => void;
-  submitAnswer: (questionId: string, optionId: string) => void;
+  submitAnswer: (questionId: string, optionIds: string[]) => void;
   nextQuestion: () => void;
   finishSession: () => void;
   resetSession: () => void;
@@ -80,10 +80,10 @@ export const QcmProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   }, []);
 
-  const submitAnswer = useCallback((questionId: string, optionId: string) => {
+  const submitAnswer = useCallback((questionId: string, optionIds: string[]) => {
     setSession(prev => {
       if (!prev) return prev;
-      return { ...prev, answers: { ...prev.answers, [questionId]: optionId } };
+      return { ...prev, answers: { ...prev.answers, [questionId]: optionIds } };
     });
   }, []);
 

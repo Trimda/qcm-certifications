@@ -1,6 +1,7 @@
 export type Role = 'admin' | 'user' | 'contributor';
 export type Topic = 'scrum' | 'devops' | 'safe';
 export type SupportedLang = 'fr' | 'en';
+export type AnswerMode = 'single' | 'multiple' | 'mixed';
 
 /** Bilingual string stored in QCM data */
 export interface LocalizedText {
@@ -27,7 +28,10 @@ export interface Question {
   id: string;
   text: LocalizedText;
   options: AnswerOption[];
-  correctAnswer: string; // matches AnswerOption.id
+  /** string for single-answer, string[] for multiple-answer questions */
+  correctAnswer: string | string[];
+  /** When true, user must select all correct answers (checkbox mode) */
+  isMultiple?: boolean;
 }
 
 export interface Qcm {
@@ -35,6 +39,8 @@ export interface Qcm {
   title: LocalizedText;
   description: LocalizedText;
   topic: Topic;
+  /** How answers are presented during practice. Default: 'single' */
+  answerMode?: AnswerMode;
   questions: Question[];
   createdBy: string; // User.id
   isPrivate?: boolean;

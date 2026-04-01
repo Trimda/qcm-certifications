@@ -76,7 +76,9 @@
     "startMixed": "Mixed session",
     "mixedTopicDesc": "Up to {{max}} shuffled questions from this category",
     "rateQcm": "Rate this QCM",
-    "yourRating": "Your rating"
+    "yourRating": "Your rating",
+    "selectOneAnswer": "Select one answer.",
+    "selectMultipleAnswers": "Select all correct answers (multiple choices allowed)."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -111,6 +113,12 @@
     "private": "Private",
     "saveSuccess": "QCM saved successfully",
     "saveError": "Error saving QCM",
+    "answerModeLabel": "Answer mode",
+    "answerModeSingle": "Single answer",
+    "answerModeMultiple": "Multiple answers",
+    "answerModeMixed": "Mixed (per question)",
+    "isMultipleLabel": "Multiple-answer question",
+    "correctAnswersLabel": "Correct answers",
     "import": {
       "title": "Import a file",
       "hint": "Upload a JSON or CSV file to automatically pre-fill the form.",
