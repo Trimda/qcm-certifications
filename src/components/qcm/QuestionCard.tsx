@@ -8,6 +8,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { useTranslation } from '@/hooks/useTranslation';
 import { resolveText } from '@/lib/localizedText';
 import { getCorrectAnswers, isAnswerCorrect } from '@/lib/questionHelpers';
+import { BookOpenIcon } from '@phosphor-icons/react';
 
 interface QuestionCardProps {
   question: Question;
@@ -16,6 +17,13 @@ interface QuestionCardProps {
   isLast?: boolean;
   onAnswer: (optionIds: string[]) => void;
   onNext: () => void;
+  /** Exam mode — free navigation, deferred validation */
+  examMode?: boolean;
+  onPrevious?: () => void;
+  onGoTo?: (index: number) => void;
+  initialAnswer?: string[];
+  answers?: Record<string, string[]>;
+  questionIds?: string[];
 }
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({
@@ -25,9 +33,15 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   isLast = false,
   onAnswer,
   onNext,
+  examMode = false,
+  onPrevious,
+  onGoTo,
+  initialAnswer = [],
+  answers,
+  questionIds,
 }) => {
   const { t, i18n } = useTranslation();
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(initialAnswer);
   const [submitted, setSubmitted] = useState(false);
 
   const isMultiple = question.isMultiple === true;
@@ -35,13 +49,19 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   const correctAnswers = getCorrectAnswers(question);
 
   const handleSelect = (optionId: string) => {
-    if (submitted) return;
+    if (!examMode && submitted) return;
+    let newOptions: string[];
     if (isMultiple) {
-      setSelectedOptions(prev =>
-        prev.includes(optionId) ? prev.filter(id => id !== optionId) : [...prev, optionId]
-      );
+      newOptions = selectedOptions.includes(optionId)
+        ? selectedOptions.filter(id => id !== optionId)
+        : [...selectedOptions, optionId];
     } else {
-      setSelectedOptions([optionId]);
+      newOptions = [optionId];
+    }
+    setSelectedOptions(newOptions);
+    // In exam mode, auto-save on every selection change
+    if (examMode) {
+      onAnswer(newOptions);
     }
   };
 
@@ -58,6 +78,10 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   const getOptionState = (optionId: string) => {
+    // Exam mode — only show selected state, never reveal correct/wrong
+    if (examMode) {
+      return selectedOptions.includes(optionId) ? 'selected' : 'default';
+    }
     if (!submitted) {
       return selectedOptions.includes(optionId) ? 'selected' : 'default';
     }
@@ -72,7 +96,22 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
 
   return (
     <div className="memphis-card p-6 flex flex-col gap-5">
-      <ProgressBar current={questionNumber} total={totalQuestions} />
+      {/* Progress bar — segmented + clickable in exam mode */}
+      <ProgressBar
+        current={questionNumber}
+        total={totalQuestions}
+        questionIds={examMode ? questionIds : undefined}
+        answers={examMode ? answers : undefined}
+        onGoTo={examMode && onGoTo ? onGoTo : undefined}
+      />
+
+      {/* Exam mode badge */}
+      {examMode && (
+        <div className="flex items-center gap-2 self-start px-2 py-1 bg-black text-white text-xs font-black uppercase tracking-wider">
+          <BookOpenIcon size={12} weight="bold" />
+          {t('practice.examModeActive')}
+        </div>
+      )}
 
       <p className="text-xs font-black uppercase tracking-wider opacity-60">
         {t('practice.question')} {questionNumber} {t('practice.of')} {totalQuestions}
@@ -80,7 +119,6 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
 
       <h2 className="memphis-heading text-xl">{questionText}</h2>
 
-      {/* Instruction label */}
       <p className="text-sm font-bold opacity-70 -mt-2">
         {isMultiple ? t('practice.selectMultipleAnswers') : t('practice.selectOneAnswer')}
       </p>
@@ -91,34 +129,49 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             key={option.id}
             option={option}
             state={getOptionState(option.id)}
-            disabled={submitted}
+            disabled={!examMode && submitted}
             onClick={handleSelect}
             inputType={isMultiple ? 'checkbox' : 'radio'}
           />
         ))}
       </div>
 
-      {submitted && (
+      {/* Feedback — normal mode only */}
+      {!examMode && submitted && (
         <p className={`font-black text-sm ${answeredCorrectly ? 'text-green-700' : 'text-[var(--memphis-red)]'}`}>
           {answeredCorrectly ? t('practice.correct') : t('practice.wrong')}
         </p>
       )}
 
-      <div className="flex gap-3">
-        {!submitted ? (
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            disabled={selectedOptions.length === 0}
-          >
-            {t('practice.submitAnswer')}
+      {/* Action buttons */}
+      {examMode ? (
+        <div className="flex gap-3 flex-wrap">
+          {onPrevious && (
+            <Button variant="ghost" onClick={onPrevious}>
+              {t('practice.previousQuestion')}
+            </Button>
+          )}
+          <Button variant={isLast ? 'primary' : 'secondary'} onClick={onNext}>
+            {isLast ? t('practice.validateExam') : t('practice.nextQuestion')}
           </Button>
-        ) : (
-          <Button variant="secondary" onClick={handleNext}>
-            {isLast ? t('practice.seeResults') : t('practice.nextQuestion')}
-          </Button>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="flex gap-3">
+          {!submitted ? (
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+              disabled={selectedOptions.length === 0}
+            >
+              {t('practice.submitAnswer')}
+            </Button>
+          ) : (
+            <Button variant="secondary" onClick={handleNext}>
+              {isLast ? t('practice.seeResults') : t('practice.nextQuestion')}
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

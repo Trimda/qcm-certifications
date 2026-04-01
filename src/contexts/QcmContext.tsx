@@ -10,6 +10,7 @@ interface PracticeSession {
   currentIndex: number;
   answers: Record<string, string[]>; // questionId -> selected option ids
   isFinished: boolean;
+  examMode: boolean;
 }
 
 interface QcmContextValue {
@@ -21,9 +22,11 @@ interface QcmContextValue {
   createNewQcm: (qcm: Omit<Qcm, 'id' | 'createdAt' | 'updatedAt'>) => Promise<Qcm>;
   editQcm: (id: string, updates: Partial<Qcm>) => Promise<Qcm>;
   removeQcm: (id: string) => Promise<void>;
-  startSession: (qcms: Qcm[], maxQuestions?: number) => void;
+  startSession: (qcms: Qcm[], maxQuestions?: number, examMode?: boolean) => void;
   submitAnswer: (questionId: string, optionIds: string[]) => void;
   nextQuestion: () => void;
+  previousQuestion: () => void;
+  goToQuestion: (index: number) => void;
   finishSession: () => void;
   resetSession: () => void;
 }
@@ -66,9 +69,8 @@ export const QcmProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setQcms(prev => prev.filter(q => q.id !== id));
   }, []);
 
-  const startSession = useCallback((selectedQcms: Qcm[], maxQuestions?: number) => {
+  const startSession = useCallback((selectedQcms: Qcm[], maxQuestions?: number, examMode = false) => {
     const allQuestions = selectedQcms.flatMap(q => q.questions);
-    // Shuffle questions
     const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
     const limited = maxQuestions ? shuffled.slice(0, maxQuestions) : shuffled;
     setSession({
@@ -77,6 +79,7 @@ export const QcmProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       currentIndex: 0,
       answers: {},
       isFinished: false,
+      examMode,
     });
   }, []);
 
@@ -98,6 +101,23 @@ export const QcmProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   }, []);
 
+  const previousQuestion = useCallback(() => {
+    setSession(prev => {
+      if (!prev) return prev;
+      const prevIndex = prev.currentIndex - 1;
+      if (prevIndex < 0) return prev;
+      return { ...prev, currentIndex: prevIndex };
+    });
+  }, []);
+
+  const goToQuestion = useCallback((index: number) => {
+    setSession(prev => {
+      if (!prev) return prev;
+      if (index < 0 || index >= prev.questions.length) return prev;
+      return { ...prev, currentIndex: index };
+    });
+  }, []);
+
   const finishSession = useCallback(() => {
     setSession(prev => prev ? { ...prev, isFinished: true } : prev);
   }, []);
@@ -110,7 +130,7 @@ export const QcmProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <QcmContext.Provider value={{
       qcms, isLoading, session,
       loadQcms, loadQcmById, createNewQcm, editQcm, removeQcm,
-      startSession, submitAnswer, nextQuestion, finishSession, resetSession,
+      startSession, submitAnswer, nextQuestion, previousQuestion, goToQuestion, finishSession, resetSession,
     }}>
       {children}
     </QcmContext.Provider>

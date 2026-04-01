@@ -15,6 +15,7 @@ interface QcmListProps {
   qcms: Qcm[];
   onDelete?: (id: string) => void;
   onStart?: (qcm: Qcm) => void;
+  onStartExam?: (qcm: Qcm) => void;
   showActions?: boolean;
   bestScores?: Record<string, number>;
   avgRatings?: Record<string, { avg: number; count: number }>;
@@ -24,6 +25,7 @@ export const QcmList: React.FC<QcmListProps> = ({
   qcms,
   onDelete,
   onStart,
+  onStartExam,
   showActions = false,
   bestScores = {},
   avgRatings = {},
@@ -83,6 +85,11 @@ export const QcmList: React.FC<QcmListProps> = ({
                   {t('practice.startButton')}
                 </Button>
               </Link>
+            )}
+            {onStartExam && (
+              <Button variant="ghost" size="sm" onClick={() => onStartExam(qcm)}>
+                {t('practice.examMode')}
+              </Button>
             )}
             {showActions && (
               <>

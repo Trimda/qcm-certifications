@@ -22,6 +22,7 @@ interface ResultSummaryProps {
   qcmId?: string;
   userRating?: number;
   onRate?: (rating: number) => void;
+  onRetryExam?: () => void;
 }
 
 export const ResultSummary: React.FC<ResultSummaryProps> = ({
@@ -34,6 +35,7 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
   qcmId,
   userRating = 0,
   onRate,
+  onRetryExam,
 }) => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -99,6 +101,11 @@ export const ResultSummary: React.FC<ResultSummaryProps> = ({
         <Button variant="primary" onClick={onRetry}>
           {t('practice.retry')}
         </Button>
+        {onRetryExam && (
+          <Button variant="secondary" onClick={onRetryExam}>
+            {t('practice.retryExam')}
+          </Button>
+        )}
         <Button
           variant="ghost"
           onClick={() => {

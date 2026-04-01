@@ -78,7 +78,17 @@
     "rateQcm": "Notez ce QCM",
     "yourRating": "Votre note",
     "selectOneAnswer": "Sélectionnez une réponse.",
-    "selectMultipleAnswers": "Sélectionnez toutes les bonnes réponses (plusieurs choix possibles)."
+    "selectMultipleAnswers": "Sélectionnez toutes les bonnes réponses (plusieurs choix possibles).",
+    "examMode": "Mode examen",
+    "examModeActive": "Mode examen",
+    "previousQuestion": "Question précédente",
+    "validateExam": "Valider l'examen",
+    "retryExam": "Recommencer (Examen)",
+    "startMixedExam": "Session mixte (Examen)",
+    "examConfirmTitle": "Questions sans réponse",
+    "examConfirmBody": "{{count}} question(s) sans réponse. Voulez-vous quand même valider l'examen ?",
+    "examConfirmYes": "Valider quand même",
+    "examConfirmCancel": "Continuer l'examen"
   },
   "dashboard": {
     "title": "Tableau de bord",

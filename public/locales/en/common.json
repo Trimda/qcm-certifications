@@ -78,7 +78,17 @@
     "rateQcm": "Rate this QCM",
     "yourRating": "Your rating",
     "selectOneAnswer": "Select one answer.",
-    "selectMultipleAnswers": "Select all correct answers (multiple choices allowed)."
+    "selectMultipleAnswers": "Select all correct answers (multiple choices allowed).",
+    "examMode": "Exam mode",
+    "examModeActive": "Exam mode",
+    "previousQuestion": "Previous question",
+    "validateExam": "Submit exam",
+    "retryExam": "Retry (Exam)",
+    "startMixedExam": "Mixed exam session",
+    "examConfirmTitle": "Unanswered questions",
+    "examConfirmBody": "{{count}} question(s) have no answer. Do you still want to submit the exam?",
+    "examConfirmYes": "Submit anyway",
+    "examConfirmCancel": "Continue the exam"
   },
   "dashboard": {
     "title": "Dashboard",
