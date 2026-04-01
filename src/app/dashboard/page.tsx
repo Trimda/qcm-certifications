@@ -54,7 +54,7 @@ export default function DashboardPage() {
             <Card variant="red">
               <h2 className="memphis-heading text-xl mb-2">{t('dashboard.adminTitle')}</h2>
               <p className="font-bold mb-4">{t('dashboard.adminDesc')}</p>
-              <Link href="/admin/users">
+              <Link href="/admin">
                 <Button variant="ghost" size="sm">{t('nav.admin')} <ArrowRightIcon size={13} weight="bold" className="inline ml-1" /></Button>
               </Link>
             </Card>
