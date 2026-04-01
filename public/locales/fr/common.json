@@ -175,13 +175,52 @@
     "langEn": "EN"
   },
   "about": {
-    "title": "À propos",
-    "presentation": "Présentation",
-    "themes": "Thèmes disponibles",
-    "importSection": "Importer des QCMs",
-    "downloadJson": "Télécharger l'exemple JSON",
-    "downloadCsv": "Télécharger l'exemple CSV",
-    "validationRules": "Règles de validation"
+    "title": "À propos de QCM Certif",
+    "intro": "<strong>QCM Certif</strong> est une application interactive pour préparer les certifications professionnelles <strong>SCRUM</strong>, <strong>DevOps</strong> et <strong>SAFe</strong> à travers des questionnaires à choix multiples.",
+    "features": {
+      "practice": { "label": "Sessions de pratique", "desc": "Par thème ou sessions mixtes, avec mémorisation de vos meilleurs scores." },
+      "contributor": { "label": "Espace contributeur", "desc": "Créez et partagez vos propres QCMs, en français, en anglais ou dans les deux langues." },
+      "roles": { "label": "Gestion des rôles", "desc": "Trois niveaux d'accès : utilisateur, contributeur et administrateur." }
+    },
+    "themes": {
+      "title": "Thèmes disponibles",
+      "scrum": "Rôles, événements et artefacts du framework SCRUM.",
+      "devops": "CI/CD, Infrastructure as Code et culture DevOps.",
+      "safe": "Program Increments, ART et mise à l'échelle agile."
+    },
+    "answerModes": {
+      "title": "Modes de réponse",
+      "intro": "Chaque QCM dispose d'un <strong>mode de réponse</strong> défini à la création. Il détermine comment les questions sont présentées pendant la session de pratique.",
+      "single": { "label": "Réponse unique", "desc": "Toutes les questions ont exactement une bonne réponse. Les options sont affichées avec des boutons radio." },
+      "multiple": { "label": "Réponses multiples", "desc": "Toutes les questions peuvent avoir plusieurs bonnes réponses. Les options sont affichées avec des cases à cocher." },
+      "mixed": { "label": "Mixte", "desc": "Chaque question a sa propre configuration (réponse unique ou multiple), définie par le contributeur." },
+      "scoringTitle": "⚠ Règle de scoring pour les réponses multiples",
+      "scoringDesc": "Pour une question à réponses multiples, <strong>toutes les bonnes réponses doivent être sélectionnées</strong>. Une sélection partielle (même si toutes les réponses choisies sont correctes) est comptée comme une mauvaise réponse."
+    },
+    "import": {
+      "title": "Importer des QCMs",
+      "intro": "Lors de la création d'un QCM, vous pouvez <strong>uploader directement un fichier JSON ou CSV</strong> au lieu de remplir le formulaire manuellement. Le fichier est validé côté client puis vérifié côté serveur avant d'être pré-rempli dans le formulaire — vous pouvez ensuite réviser et soumettre.",
+      "jsonTitle": "Format JSON",
+      "jsonDesc": "Le fichier doit être un <strong>tableau JSON</strong> contenant un objet QCM. Tous les champs textuels utilisent le format <code>{\"fr\": \"...\", \"en\": \"...\"}</code>. Le champ <code>correctAnswer</code> accepte une <strong>string</strong> pour une réponse unique ou un <strong>tableau de strings</strong> pour plusieurs bonnes réponses.",
+      "downloadJson": "Télécharger l'exemple JSON",
+      "csvTitle": "Format CSV",
+      "csvDesc": "Le fichier CSV utilise une <strong>ligne par question</strong>. Les colonnes de métadonnées (title, description, topic) sont répétées sur chaque ligne mais seules les valeurs de la <strong>première ligne</strong> sont utilisées. Les colonnes <code>_en</code> peuvent être laissées vides pour un QCM uniquement en français. <strong>Note :</strong> le CSV ne supporte que les réponses uniques — utilisez le JSON pour les réponses multiples.",
+      "downloadCsv": "Télécharger l'exemple CSV",
+      "validationTitle": "Règles de validation",
+      "rules": [
+        "Les champs \"title\" et \"description\" doivent avoir au moins une traduction (fr ou en).",
+        "Le champ \"topic\" doit être l'une des valeurs : scrum, devops, safe.",
+        "Le champ \"answerMode\" (optionnel) doit être : single, multiple ou mixed. Défaut : single.",
+        "Chaque question doit avoir exactement 4 options avec les identifiants a, b, c et d.",
+        "\"correctAnswer\" peut être une string (\"b\") pour une réponse unique, ou un tableau ([\"a\",\"c\"]) pour plusieurs réponses.",
+        "\"isMultiple: true\" signifie que l'utilisateur doit sélectionner toutes les bonnes réponses. Une sélection partielle est comptée comme fausse.",
+        "Le QCM doit contenir au moins une question et au maximum 40 questions.",
+        "En CSV, une ligne correspond à une question. Les métadonnées (title, description, topic) sont répétées sur chaque ligne.",
+        "Les colonnes \"_en\" peuvent être vides si le QCM est en français uniquement (et inversement).",
+        "Note : le format CSV ne supporte que les réponses uniques. Utilisez le JSON pour les réponses multiples."
+      ],
+      "createButton": "Créer un QCM maintenant"
+    }
   },
   "account": {
     "title": "Mon compte",

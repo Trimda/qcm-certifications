@@ -175,13 +175,52 @@
     "langEn": "EN"
   },
   "about": {
-    "title": "About",
-    "presentation": "Overview",
-    "themes": "Available Topics",
-    "importSection": "Import QCMs",
-    "downloadJson": "Download JSON example",
-    "downloadCsv": "Download CSV example",
-    "validationRules": "Validation rules"
+    "title": "About QCM Certif",
+    "intro": "<strong>QCM Certif</strong> is an interactive application to prepare for <strong>SCRUM</strong>, <strong>DevOps</strong> and <strong>SAFe</strong> professional certifications through multiple-choice quizzes.",
+    "features": {
+      "practice": { "label": "Practice sessions", "desc": "By topic or mixed sessions, with best score tracking." },
+      "contributor": { "label": "Contributor space", "desc": "Create and share your own quizzes, in French, English, or both languages." },
+      "roles": { "label": "Role management", "desc": "Three access levels: user, contributor, and administrator." }
+    },
+    "themes": {
+      "title": "Available topics",
+      "scrum": "Roles, events and artifacts of the SCRUM framework.",
+      "devops": "CI/CD, Infrastructure as Code and DevOps culture.",
+      "safe": "Program Increments, ART and agile scaling."
+    },
+    "answerModes": {
+      "title": "Answer modes",
+      "intro": "Each QCM has an <strong>answer mode</strong> defined at creation. It determines how questions are presented during the practice session.",
+      "single": { "label": "Single answer", "desc": "All questions have exactly one correct answer. Options are displayed as radio buttons." },
+      "multiple": { "label": "Multiple answers", "desc": "Questions can have several correct answers. Options are displayed as checkboxes." },
+      "mixed": { "label": "Mixed", "desc": "Each question has its own configuration (single or multiple answer), defined by the contributor." },
+      "scoringTitle": "⚠ Scoring rule for multiple-answer questions",
+      "scoringDesc": "For a multiple-answer question, <strong>all correct answers must be selected</strong>. A partial selection (even if all chosen answers are correct) is counted as a wrong answer."
+    },
+    "import": {
+      "title": "Import QCMs",
+      "intro": "When creating a QCM, you can <strong>upload a JSON or CSV file directly</strong> instead of filling in the form manually. The file is validated client-side then verified server-side before being pre-filled into the form — you can then review and submit.",
+      "jsonTitle": "JSON format",
+      "jsonDesc": "The file must be a <strong>JSON array</strong> containing a QCM object. All text fields use the format <code>{\"fr\": \"...\", \"en\": \"...\"}</code>. The <code>correctAnswer</code> field accepts a <strong>string</strong> for a single answer or a <strong>string array</strong> for multiple correct answers.",
+      "downloadJson": "Download JSON example",
+      "csvTitle": "CSV format",
+      "csvDesc": "The CSV file uses <strong>one row per question</strong>. Metadata columns (title, description, topic) are repeated on each row but only the values from the <strong>first row</strong> are used. The <code>_en</code> columns can be left empty for a French-only QCM. <strong>Note:</strong> CSV only supports single answers — use JSON for multiple answers.",
+      "downloadCsv": "Download CSV example",
+      "validationTitle": "Validation rules",
+      "rules": [
+        "The \"title\" and \"description\" fields must have at least one translation (fr or en).",
+        "The \"topic\" field must be one of: scrum, devops, safe.",
+        "The \"answerMode\" field (optional) must be: single, multiple or mixed. Default: single.",
+        "Each question must have exactly 4 options with ids a, b, c and d.",
+        "\"correctAnswer\" can be a string (\"b\") for a single answer, or an array ([\"a\",\"c\"]) for multiple answers.",
+        "\"isMultiple: true\" means the user must select all correct answers. A partial selection is counted as wrong.",
+        "The QCM must contain at least one question and at most 40 questions.",
+        "In CSV, one row = one question. Metadata (title, description, topic) are repeated on each row.",
+        "The \"_en\" columns can be left empty for a French-only QCM (and vice versa).",
+        "Note: CSV only supports single answers. Use JSON for multiple answers."
+      ],
+      "createButton": "Create a QCM now"
+    }
   },
   "account": {
     "title": "My Account",
