@@ -182,7 +182,10 @@
     "no": "No",
     "close": "Close",
     "langFr": "FR",
-    "langEn": "EN"
+    "langEn": "EN",
+    "export": "Export",
+    "exportJson": "Export as JSON",
+    "exportCsv": "Export as CSV"
   },
   "about": {
     "title": "About QCM Certif",

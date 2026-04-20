@@ -5,6 +5,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
+import { PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
 import type { User, Role } from '@/types';
 
 interface UserTableProps {
@@ -55,21 +56,22 @@ export const UserTable: React.FC<UserTableProps> = ({ users, onDelete, onUpdate 
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="secondary"
-                      size="sm"
+                  <div className="flex gap-1 items-center">
+                    <button
+                      title={t('admin.editUser')}
+                      className="p-1.5 border-2 border-black hover:bg-black hover:text-white transition-colors"
                       onClick={() => handleEditOpen(user)}
                     >
-                      {t('admin.editUser')}
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
+                      <PencilSimpleIcon size={15} weight="bold" />
+                    </button>
+                    <button
+                      title={t('admin.deleteUser')}
+                      className="p-1.5 border-2 border-black hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors"
+                      style={{ height: 'fit-content' }}
                       onClick={() => setDeleteConfirm(user.id)}
                     >
-                      {t('admin.deleteUser')}
-                    </Button>
+                      <TrashIcon size={15} weight="bold" />
+                    </button>
                   </div>
                 </td>
               </tr>
