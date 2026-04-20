@@ -83,14 +83,21 @@ function validateQcm(data: unknown): { error: string } | { qcm: Qcm } {
     const qTextErr = validateLocalizedText(q.text, `${qLabel}.text`);
     if (qTextErr) return { error: qTextErr };
 
-    if (!Array.isArray(q.options) || q.options.length !== 4) {
-      return { error: `${qLabel} : "options" doit contenir exactement 4 éléments (a, b, c, d).` };
+    if (!Array.isArray(q.options) || q.options.length < 2 || q.options.length > 4) {
+      return { error: `${qLabel} : "options" doit contenir entre 2 et 4 éléments.` };
     }
 
-    const optionIds = (q.options as Record<string, unknown>[]).map(o => o.id);
-    for (const expectedId of VALID_OPTION_IDS) {
-      if (!optionIds.includes(expectedId)) {
-        return { error: `${qLabel} : l'option "${expectedId}" est manquante.` };
+    const optionIds = (q.options as Record<string, unknown>[]).map(o => String(o.id));
+    const REQUIRED_OPTION_IDS = ['a', 'b'];
+    for (const requiredId of REQUIRED_OPTION_IDS) {
+      if (!optionIds.includes(requiredId)) {
+        return { error: `${qLabel} : l'option "${requiredId}" est obligatoire.` };
+      }
+    }
+    // Ensure all provided ids are valid (a, b, c, d only)
+    for (const id of optionIds) {
+      if (!VALID_OPTION_IDS.includes(id)) {
+        return { error: `${qLabel} : identifiant d'option invalide "${id}". Valeurs acceptées : a, b, c, d.` };
       }
     }
 
@@ -105,10 +112,11 @@ function validateQcm(data: unknown): { error: string } | { qcm: Qcm } {
     if (correctArr.length === 0) {
       return { error: `${qLabel} : "correctAnswer" ne peut pas être vide.` };
     }
+    const questionOptionIds = (q.options as Record<string, unknown>[]).map(o => String(o.id));
     for (const ca of correctArr) {
-      if (!VALID_OPTION_IDS.includes(ca)) {
+      if (!questionOptionIds.includes(ca)) {
         return {
-          error: `${qLabel} : "correctAnswer" contient une valeur invalide : "${ca}". Valeurs acceptées : ${VALID_OPTION_IDS.join(', ')}.`,
+          error: `${qLabel} : "correctAnswer" contient une valeur invalide : "${ca}". Valeurs acceptées pour cette question : ${questionOptionIds.join(', ')}.`,
         };
       }
     }

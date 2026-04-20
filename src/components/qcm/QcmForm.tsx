@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useAuth } from '@/hooks/useAuth';
 import { useQcm } from '@/hooks/useQcm';
+import { useAchievementCheck } from '@/hooks/useAchievementCheck';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -47,6 +48,7 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
   const { createNewQcm, editQcm } = useQcm();
+  const { checkAchievements } = useAchievementCheck();
   const router = useRouter();
 
   const [langMode, setLangMode] = useState<LangMode>(detectLangMode(initialQcm));
@@ -168,6 +170,7 @@ export const QcmForm: React.FC<QcmFormProps> = ({ initialQcm, mode }) => {
           questions,
           createdBy: currentUser.id,
         });
+        void checkAchievements('first_qcm_created');
       } else if (initialQcm) {
         await editQcm(initialQcm.id, { title, description, topic, answerMode, isPrivate, questions });
       }

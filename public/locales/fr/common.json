@@ -224,7 +224,7 @@
         "Les champs \"title\" et \"description\" doivent avoir au moins une traduction (fr ou en).",
         "Le champ \"topic\" doit être l'une des valeurs : scrum, devops, safe.",
         "Le champ \"answerMode\" (optionnel) doit être : single, multiple ou mixed. Défaut : single.",
-        "Chaque question doit avoir exactement 4 options avec les identifiants a, b, c et d.",
+        "Chaque question doit avoir entre 2 et 4 options. Les identifiants a et b sont obligatoires ; c et d sont optionnels.",
         "\"correctAnswer\" peut être une string (\"b\") pour une réponse unique, ou un tableau ([\"a\",\"c\"]) pour plusieurs réponses.",
         "\"isMultiple: true\" signifie que l'utilisateur doit sélectionner toutes les bonnes réponses. Une sélection partielle est comptée comme fausse.",
         "Le QCM doit contenir au moins une question et au maximum 40 questions.",
@@ -232,7 +232,14 @@
         "Les colonnes \"_en\" peuvent être vides si le QCM est en français uniquement (et inversement).",
         "Note : le format CSV ne supporte que les réponses uniques. Utilisez le JSON pour les réponses multiples."
       ],
-      "createButton": "Créer un QCM maintenant"
+      "createButton": "Créer un QCM maintenant",
+      "prompt": {
+        "title": "Générer avec une IA",
+        "desc": "Collez ce prompt dans ChatGPT, Claude ou tout autre chatbot, puis joignez votre fichier ou copiez-collez vos questions en dessous.",
+        "copy": "Copier le prompt",
+        "copied": "Copié !",
+        "text": "Tu es un assistant de conversion de QCM. Je vais te fournir des questions à choix multiples dans un format quelconque (texte brut, image, PDF, etc.).\n\nTa mission est de les convertir en JSON valide selon le schéma fourni ci-dessous, sans jamais paraphraser ni reformuler les questions ou les réponses — recopie-les mot pour mot.\n\nConvention pour les bonnes réponses : dans mon fichier, la bonne réponse est précédée de la lettre « V » en début de ligne. Pour les questions à choix multiples, plusieurs lignes commencent par « V ».\n\nRègles de conversion :\n- Recopie les textes des questions et réponses exactement tels quels, sans reformulation.\n- Si le contenu est en français uniquement, fournis une traduction anglaise fidèle dans le champ \"en\". Si le contenu est en anglais uniquement, traduis en français dans \"fr\".\n- Les identifiants des options sont \"a\", \"b\", \"c\", \"d\" dans l'ordre d'apparition.\n- Si une question contient une instruction du type \"Sélectionnez un ou plusieurs choix.\", \"Select one or more\" ou toute variante similaire, ne l'inclus PAS dans le texte de la question : cette instruction est affichée automatiquement par l'application.\n- \"correctAnswer\" est la lettre de l'option correcte (\"a\", \"b\", \"c\" ou \"d\"). Si plusieurs réponses sont correctes, c'est un tableau (ex : [\"a\", \"c\"]) et \"isMultiple\" vaut true.\n- \"answerMode\" vaut \"single\" si toutes les questions ont une seule réponse, \"multiple\" si toutes en ont plusieurs, \"mixed\" si c'est un mélange.\n- Respecte le schéma JSON ci-dessous à la lettre. Retourne uniquement le JSON brut, sans commentaire ni explication.\n\nSchéma :\n[\n  {\n    \"title\": { \"fr\": \"Titre du QCM\", \"en\": \"QCM title\" },\n    \"description\": { \"fr\": \"Description courte\", \"en\": \"Short description\" },\n    \"topic\": \"devops\",\n    \"answerMode\": \"single\",\n    \"isPrivate\": false,\n    \"questions\": [\n      {\n        \"text\": { \"fr\": \"Texte de la question ?\", \"en\": \"Question text?\" },\n        \"options\": [\n          { \"id\": \"a\", \"text\": { \"fr\": \"Option A\", \"en\": \"Option A\" } },\n          { \"id\": \"b\", \"text\": { \"fr\": \"Option B\", \"en\": \"Option B\" } },\n          { \"id\": \"c\", \"text\": { \"fr\": \"Option C\", \"en\": \"Option C\" } },\n          { \"id\": \"d\", \"text\": { \"fr\": \"Option D\", \"en\": \"Option D\" } }\n        ],\n        \"correctAnswer\": \"b\",\n        \"isMultiple\": false\n      }\n    ]\n  }\n]\n\nVoici mes questions :"
+      }
     }
   },
   "account": {

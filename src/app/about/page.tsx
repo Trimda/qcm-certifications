@@ -15,6 +15,9 @@ import {
   CheckSquareIcon,
   RadioButtonIcon,
   ShuffleIcon,
+  RobotIcon,
+  CopyIcon,
+  CheckIcon,
 } from '@phosphor-icons/react';
 import { useTranslation } from '@/hooks/useTranslation';
 
@@ -60,6 +63,14 @@ My QCM (FR),My QCM (EN),Description (FR),Description (EN),scrum,false,Question 1
 My QCM (FR),My QCM (EN),Description (FR),Description (EN),scrum,false,Question 2 (FR)?,Question 2 (EN)?,A (FR),A (EN),B (FR),B (EN),C (FR),C (EN),D (FR),D (EN),a`;
 
   const validationRules = t('about.import.rules', { returnObjects: true }) as string[];
+  const [promptCopied, setPromptCopied] = React.useState(false);
+
+  const handleCopyPrompt = () => {
+    void navigator.clipboard.writeText(t('about.import.prompt.text')).then(() => {
+      setPromptCopied(true);
+      setTimeout(() => setPromptCopied(false), 2000);
+    });
+  };
 
   const inlineCode = 'bg-gray-100 px-1 py-0.5 text-xs';
   const tx = { strong: <strong key="strong" />, code: <code key="code" className={inlineCode} /> };
@@ -194,6 +205,28 @@ My QCM (FR),My QCM (EN),Description (FR),Description (EN),scrum,false,Question 2
           </p>
           <pre className="bg-gray-950 text-green-400 text-xs p-4 overflow-x-auto border-2 border-black leading-relaxed whitespace-pre">
             {csvExample}
+          </pre>
+        </div>
+
+        {/* AI Prompt */}
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h3 className="font-black text-lg uppercase tracking-wide flex items-center gap-2">
+              <RobotIcon size={20} weight="bold" />
+              {t('about.import.prompt.title')}
+            </h3>
+            <button
+              onClick={handleCopyPrompt}
+              className="memphis-button-outline inline-flex items-center gap-2 text-sm self-start sm:self-auto"
+            >
+              {promptCopied
+                ? <><CheckIcon size={16} weight="bold" />{t('about.import.prompt.copied')}</>
+                : <><CopyIcon size={16} weight="bold" />{t('about.import.prompt.copy')}</>}
+            </button>
+          </div>
+          <p className="text-sm opacity-80">{t('about.import.prompt.desc')}</p>
+          <pre className="bg-gray-950 text-green-400 text-xs p-4 overflow-x-auto border-2 border-black leading-relaxed whitespace-pre-wrap select-all">
+            {t('about.import.prompt.text')}
           </pre>
         </div>
 

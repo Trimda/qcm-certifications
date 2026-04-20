@@ -224,7 +224,7 @@
         "The \"title\" and \"description\" fields must have at least one translation (fr or en).",
         "The \"topic\" field must be one of: scrum, devops, safe.",
         "The \"answerMode\" field (optional) must be: single, multiple or mixed. Default: single.",
-        "Each question must have exactly 4 options with ids a, b, c and d.",
+        "Each question must have between 2 and 4 options. Ids a and b are required; c and d are optional.",
         "\"correctAnswer\" can be a string (\"b\") for a single answer, or an array ([\"a\",\"c\"]) for multiple answers.",
         "\"isMultiple: true\" means the user must select all correct answers. A partial selection is counted as wrong.",
         "The QCM must contain at least one question and at most 40 questions.",
@@ -232,7 +232,14 @@
         "The \"_en\" columns can be left empty for a French-only QCM (and vice versa).",
         "Note: CSV only supports single answers. Use JSON for multiple answers."
       ],
-      "createButton": "Create a QCM now"
+      "createButton": "Create a QCM now",
+      "prompt": {
+        "title": "Generate with AI",
+        "desc": "Paste this prompt into ChatGPT, Claude or any other chatbot, then attach your file or paste your questions below.",
+        "copy": "Copy prompt",
+        "copied": "Copied!",
+        "text": "You are a QCM conversion assistant. I will provide you with multiple-choice questions in any format (plain text, image, PDF, etc.).\n\nYour task is to convert them into valid JSON following the schema below, without ever paraphrasing or rewording the questions or answers — copy them word for word.\n\nConvention for correct answers: in my file, the correct answer is preceded by the letter \"V\" at the beginning of the line. For multiple-answer questions, several lines start with \"V\".\n\nConversion rules:\n- Copy question and answer texts exactly as-is, without any rewording.\n- If the content is in French only, provide a faithful English translation in the \"en\" field. If the content is in English only, translate to French in the \"fr\" field.\n- Option ids are \"a\", \"b\", \"c\", \"d\" in order of appearance.\n- If a question contains an instruction such as \"Select one or more choices.\", \"Sélectionnez un ou plusieurs choix.\" or any similar variant, do NOT include it in the question text: this instruction is displayed automatically by the application.\n- \"correctAnswer\" is the letter of the correct option (\"a\", \"b\", \"c\" or \"d\"). If multiple answers are correct, it is an array (e.g. [\"a\", \"c\"]) and \"isMultiple\" is true.\n- \"answerMode\" is \"single\" if all questions have one answer, \"multiple\" if all have several, \"mixed\" otherwise.\n- Follow the JSON schema below exactly. Return only raw JSON, no comments or explanations.\n\nSchema:\n[\n  {\n    \"title\": { \"fr\": \"Titre du QCM\", \"en\": \"QCM title\" },\n    \"description\": { \"fr\": \"Description courte\", \"en\": \"Short description\" },\n    \"topic\": \"devops\",\n    \"answerMode\": \"single\",\n    \"isPrivate\": false,\n    \"questions\": [\n      {\n        \"text\": { \"fr\": \"Texte de la question ?\", \"en\": \"Question text?\" },\n        \"options\": [\n          { \"id\": \"a\", \"text\": { \"fr\": \"Option A\", \"en\": \"Option A\" } },\n          { \"id\": \"b\", \"text\": { \"fr\": \"Option B\", \"en\": \"Option B\" } },\n          { \"id\": \"c\", \"text\": { \"fr\": \"Option C\", \"en\": \"Option C\" } },\n          { \"id\": \"d\", \"text\": { \"fr\": \"Option D\", \"en\": \"Option D\" } }\n        ],\n        \"correctAnswer\": \"b\",\n        \"isMultiple\": false\n      }\n    ]\n  }\n]\n\nHere are my questions:"
+      }
     }
   },
   "account": {
