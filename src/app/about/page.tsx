@@ -62,7 +62,7 @@ My QCM (FR),My QCM (EN),Description (FR),Description (EN),scrum,false,Question 2
   const validationRules = t('about.import.rules', { returnObjects: true }) as string[];
 
   const inlineCode = 'bg-gray-100 px-1 py-0.5 text-xs';
-  const tx = { strong: <strong />, code: <code className={inlineCode} /> };
+  const tx = { strong: <strong key="strong" />, code: <code key="code" className={inlineCode} /> };
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-16">
