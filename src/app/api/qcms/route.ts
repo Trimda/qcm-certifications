@@ -4,6 +4,7 @@ import { join } from 'path';
 import { cookies } from 'next/headers';
 import type { Qcm, Topic, User } from '@/types';
 import { generateId, SESSION_COOKIE, parseSessionCookie } from '@/lib/auth';
+import { checkAndUnlock } from '@/lib/achievementEngine';
 
 const qcmsPath = join(process.cwd(), 'src', 'data', 'qcms.json');
 const usersPath = join(process.cwd(), 'src', 'data', 'users.json');
@@ -81,6 +82,12 @@ export async function POST(request: NextRequest) {
 
     qcms.push(newQcm);
     writeQcms(qcms);
+
+    // Fire achievement trigger (non-blocking)
+    const currentUser = await getCurrentUser();
+    if (currentUser) {
+      try { checkAndUnlock(currentUser.id, 'first_qcm_created'); } catch { /* silent */ }
+    }
 
     return NextResponse.json(newQcm, { status: 201 });
   } catch {

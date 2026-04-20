@@ -252,5 +252,38 @@
     "wrongPassword": "Current password is incorrect",
     "passwordMismatch": "Passwords do not match",
     "passwordTooShort": "Password must be at least 6 characters"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "toastTitle": "Badge unlocked!",
+    "unlocked": "Unlocked on {{date}}",
+    "locked": "Not yet unlocked",
+    "secretDescription": "This badge is still a mystery…",
+    "level": "Level {{level}}",
+    "noAchievements": "No badges available yet.",
+    "adminTitle": "Badge Management",
+    "createBadge": "Create Badge",
+    "badgeIcon": "Phosphor icon (without \"Icon\")",
+    "badgeColor": "Color",
+    "badgeSecret": "Secret (hidden until unlocked)",
+    "badgeHideDescription": "Hide description when locked",
+    "badgeUnique": "Unique (one user only)",
+    "badgeStackable": "Stackable (levels)",
+    "badgeActive": "Active",
+    "badgeTrigger": "Trigger",
+    "badgeTriggerThreshold": "Threshold N",
+    "grantBadge": "Grant Badge",
+    "grantUser": "User",
+    "grantAchievement": "Badge",
+    "grantSuccess": "Badge granted successfully!",
+    "triggers": {
+      "first_qcm_done": "First QCM completed",
+      "perfect_score": "Perfect score (100%)",
+      "streak_7_days": "7 consecutive days",
+      "first_qcm_created": "First QCM created",
+      "complete_N_qcms": "Complete N QCMs",
+      "rocket_click": "Rocket click (secret)",
+      "manual": "Manual grant"
+    }
   }
 }

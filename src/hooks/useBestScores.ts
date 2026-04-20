@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useAuth } from '@/hooks/useAuth';
+import { useAchievementCheck } from '@/hooks/useAchievementCheck';
 
 const LS_KEY = 'qcm_best_scores';
 interface ServerEntry { bestScore: number; rating?: number; }
@@ -43,6 +44,8 @@ export const useBestScores = () => {
       )
     : {};
 
+  const { checkAchievements } = useAchievementCheck();
+
   const updateBestScore = useCallback(
     async (qcmId: string, percentage: number, current: Record<string, number>) => {
       if (!isAuth) {
@@ -57,9 +60,12 @@ export const useBestScores = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ qcmId, score: percentage }),
         });
+        void checkAchievements('first_qcm_done');
+        void checkAchievements('complete_N_qcms');
+        if (percentage === 100) void checkAchievements('perfect_score');
       } catch { /* silent */ }
     },
-    [isAuth, setGuestScores],
+    [isAuth, setGuestScores, checkAchievements],
   );
 
   const submitRating = useCallback(

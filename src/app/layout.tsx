@@ -3,9 +3,11 @@ import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { QcmProvider } from '@/contexts/QcmContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { ToastProvider } from '@/contexts/ToastContext';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import I18nProvider from '@/components/layout/I18nProvider';
+import { AchievementToastContainer } from '@/components/achievements/AchievementToastContainer';
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -28,13 +30,16 @@ export default function RootLayout({
           <AuthProvider>
             <QcmProvider>
               <ThemeProvider>
-                <div className="memphis-page flex flex-col min-h-screen">
-                  <Header />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
+                <ToastProvider>
+                  <div className="memphis-page flex flex-col min-h-screen">
+                    <Header />
+                    <main className="flex-1">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
+                  <AchievementToastContainer />
+                </ToastProvider>
               </ThemeProvider>
             </QcmProvider>
           </AuthProvider>

@@ -252,5 +252,38 @@
     "wrongPassword": "Mot de passe actuel incorrect",
     "passwordMismatch": "Les mots de passe ne correspondent pas",
     "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "toastTitle": "Badge débloqué !",
+    "unlocked": "Débloqué le {{date}}",
+    "locked": "Non débloqué",
+    "secretDescription": "Ce badge est encore un mystère…",
+    "level": "Niveau {{level}}",
+    "noAchievements": "Aucun badge disponible pour le moment.",
+    "adminTitle": "Gestion des badges",
+    "createBadge": "Créer un badge",
+    "badgeIcon": "Icône Phosphor (sans \"Icon\")",
+    "badgeColor": "Couleur",
+    "badgeSecret": "Secret (caché jusqu'à l'obtention)",
+    "badgeHideDescription": "Cacher la description si verrouillé",
+    "badgeUnique": "Unique (un seul utilisateur)",
+    "badgeStackable": "Cumulable (niveaux)",
+    "badgeActive": "Actif",
+    "badgeTrigger": "Déclencheur",
+    "badgeTriggerThreshold": "Seuil N",
+    "grantBadge": "Accorder un badge",
+    "grantUser": "Utilisateur",
+    "grantAchievement": "Badge",
+    "grantSuccess": "Badge accordé avec succès !",
+    "triggers": {
+      "first_qcm_done": "Premier QCM terminé",
+      "perfect_score": "Score parfait (100%)",
+      "streak_7_days": "7 jours consécutifs",
+      "first_qcm_created": "Premier QCM créé",
+      "complete_N_qcms": "Compléter N QCMs",
+      "rocket_click": "Clic sur la fusée (secret)",
+      "manual": "Attribution manuelle"
+    }
   }
 }

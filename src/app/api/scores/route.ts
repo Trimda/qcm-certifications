@@ -69,6 +69,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
   }
 
   writeScores(scores);
+
   const updated = scores.find(s => s.userId === currentUser.id && s.qcmId === qcmId)!;
   return NextResponse.json({ qcmId: updated.qcmId, bestScore: updated.bestScore, rating: updated.rating });
 }

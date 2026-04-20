@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { PasswordInput } from '@/components/ui/PasswordInput';
+import { AchievementsBlock } from '@/components/achievements/AchievementsBlock';
 
 const ROLE_BADGE: Record<string, 'scrum' | 'devops' | 'safe'> = {
   admin: 'safe',
@@ -104,6 +105,9 @@ const AccountPage: React.FC = () => {
     <RoleGuard allowedRoles={['admin', 'contributor', 'user']}>
       <div className="max-w-2xl mx-auto px-4 py-10">
         <h1 className="memphis-heading text-3xl mb-8">{t('account.title')}</h1>
+
+        {/* ── Achievements ────────────────────────────────────────────── */}
+        <AchievementsBlock />
 
         {/* ── Section Profil ──────────────────────────────────────────────── */}
         <Card className="mb-6">

@@ -1,0 +1,460 @@
+[
+  {
+    "id": "qcm-scrum-1",
+    "title": {
+      "fr": "Fondamentaux SCRUM",
+      "en": "SCRUM Fundamentals"
+    },
+    "description": {
+      "fr": "Testez vos connaissances des bases du framework SCRUM.",
+      "en": "Test your knowledge of SCRUM framework basics."
+    },
+    "topic": "scrum",
+    "isPrivate": false,
+    "createdBy": "user-1",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-04-01T14:28:46.456Z",
+    "questions": [
+      {
+        "id": "q-scrum-1-1",
+        "text": {
+          "fr": "Quelle est la durée recommandée pour un Sprint ?",
+          "en": "What is the recommended duration for a Sprint?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "1 semaine",
+              "en": "1 week"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "1 à 4 semaines",
+              "en": "1 to 4 weeks"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "2 mois",
+              "en": "2 months"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "6 mois",
+              "en": "6 months"
+            }
+          }
+        ],
+        "correctAnswer": [
+          "b"
+        ],
+        "isMultiple": true
+      },
+      {
+        "id": "q-scrum-1-2",
+        "text": {
+          "fr": "Qui est responsable de maximiser la valeur du produit ?",
+          "en": "Who is responsible for maximizing the value of the product?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Scrum Master",
+              "en": "Scrum Master"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Équipe de développement",
+              "en": "Development Team"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Product Owner",
+              "en": "Product Owner"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Parties prenantes",
+              "en": "Stakeholders"
+            }
+          }
+        ],
+        "correctAnswer": "c"
+      },
+      {
+        "id": "q-scrum-1-3",
+        "text": {
+          "fr": "Quel est l’objectif principal du Daily Scrum ?",
+          "en": "What is the main purpose of the Daily Scrum?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Rapporter l’avancement au Product Owner",
+              "en": "Report progress to the Product Owner"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Inspecter l’avancement vers l’objectif du Sprint et adapter le plan",
+              "en": "Inspect progress toward the Sprint Goal and adapt the plan"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Réviser les éléments du backlog",
+              "en": "Review the backlog items"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Assigner les tâches aux membres de l’équipe",
+              "en": "Assign tasks to team members"
+            }
+          }
+        ],
+        "correctAnswer": "b"
+      }
+    ],
+    "answerMode": "mixed"
+  },
+  {
+    "id": "qcm-devops-1",
+    "title": {
+      "fr": "Fondamentaux DevOps",
+      "en": "DevOps Essentials"
+    },
+    "description": {
+      "fr": "Concepts clés de la culture et des pratiques DevOps.",
+      "en": "Core concepts of DevOps culture and practices."
+    },
+    "topic": "devops",
+    "isPrivate": false,
+    "createdBy": "user-1",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "questions": [
+      {
+        "id": "q-devops-1-1",
+        "text": {
+          "fr": "Que signifie CI/CD ?",
+          "en": "What does CI/CD stand for?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Intégration Continue / Déploiement Continu",
+              "en": "Continuous Integration / Continuous Deployment"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Intégration de Code / Livraison de Code",
+              "en": "Code Integration / Code Delivery"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Amélioration Continue / Développement Continu",
+              "en": "Continuous Improvement / Continuous Development"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Intégration Cloud / Déploiement Cloud",
+              "en": "Cloud Integration / Cloud Deployment"
+            }
+          }
+        ],
+        "correctAnswer": "a"
+      },
+      {
+        "id": "q-devops-1-2",
+        "text": {
+          "fr": "Lequel des éléments suivants est un principe fondamental de DevOps ?",
+          "en": "Which of the following is a core principle of DevOps?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Équipes Dev et Ops en silos",
+              "en": "Siloed teams for Dev and Ops"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Déploiements manuels pour le contrôle",
+              "en": "Manual deployments for control"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Collaboration entre développement et opérations",
+              "en": "Collaboration between development and operations"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Cycles de livraison trimestriels",
+              "en": "Quarterly release cycles"
+            }
+          }
+        ],
+        "correctAnswer": "c"
+      },
+      {
+        "id": "q-devops-1-3",
+        "text": {
+          "fr": "Qu’est-ce que l’Infrastructure as Code (IaC) ?",
+          "en": "What is Infrastructure as Code (IaC)?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Écrire du code pour documenter l’infrastructure",
+              "en": "Writing code to document infrastructure"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Gérer l’infrastructure via des fichiers de configuration lisibles par machine",
+              "en": "Managing infrastructure through machine-readable configuration files"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Utiliser une interface graphique pour configurer les serveurs",
+              "en": "Using a graphical UI to configure servers"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Coder la logique applicative dans la couche infrastructure",
+              "en": "Coding application logic in the infrastructure layer"
+            }
+          }
+        ],
+        "correctAnswer": "b"
+      }
+    ]
+  },
+  {
+    "id": "qcm-safe-1",
+    "title": {
+      "fr": "Présentation du Framework SAFe",
+      "en": "SAFe Framework Overview"
+    },
+    "description": {
+      "fr": "Introduction aux principes du Scaled Agile Framework (SAFe).",
+      "en": "Introduction to Scaled Agile Framework (SAFe) principles."
+    },
+    "topic": "safe",
+    "isPrivate": false,
+    "createdBy": "user-1",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "questions": [
+      {
+        "id": "q-safe-1-1",
+        "text": {
+          "fr": "Que signifie SAFe ?",
+          "en": "What does SAFe stand for?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Scaled Agile Framework for Enterprises",
+              "en": "Scaled Agile Framework for Enterprises"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Simple Agile Framework for Everyone",
+              "en": "Simple Agile Framework for Everyone"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Scaled Agile Framework",
+              "en": "Scaled Agile Framework"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Strategic Agile Framework for Engineering",
+              "en": "Strategic Agile Framework for Engineering"
+            }
+          }
+        ],
+        "correctAnswer": "c"
+      },
+      {
+        "id": "q-safe-1-2",
+        "text": {
+          "fr": "Qu’est-ce qu’un Program Increment (PI) dans SAFe ?",
+          "en": "What is a Program Increment (PI) in SAFe?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Un seul Sprint",
+              "en": "A single Sprint"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Une fenêtre de temps de 8 à 12 semaines dans laquelle un ART délivre de la valeur",
+              "en": "A timebox of 8 to 12 weeks in which an ART delivers value"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Une cérémonie de raffinement du backlog produit",
+              "en": "A product backlog refinement ceremony"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Un type de réunion de planification de release",
+              "en": "A type of release planning meeting"
+            }
+          }
+        ],
+        "correctAnswer": "b"
+      },
+      {
+        "id": "q-safe-1-3",
+        "text": {
+          "fr": "Qu’est-ce que l’Agile Release Train (ART) ?",
+          "en": "What is the Agile Release Train (ART)?"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "Un outil de pipeline de déploiement",
+              "en": "A deployment pipeline tool"
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "Une équipe d’équipes de longue durée qui délivre de la valeur en Program Increments",
+              "en": "A long-lived team of teams that delivers value in Program Increments"
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "Une cérémonie de planification de sprint",
+              "en": "A sprint planning ceremony"
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "Un outil de gestion du backlog",
+              "en": "A backlog management tool"
+            }
+          }
+        ],
+        "correctAnswer": "b"
+      }
+    ]
+  },
+  {
+    "title": {
+      "fr": "Test export",
+      "en": ""
+    },
+    "description": {
+      "fr": "Test pour l'export utilisateur",
+      "en": ""
+    },
+    "topic": "scrum",
+    "answerMode": "single",
+    "isPrivate": false,
+    "questions": [
+      {
+        "id": "q-1776677188499-0g200zl",
+        "text": {
+          "fr": "La réponse ... ?",
+          "en": ""
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": {
+              "fr": "A",
+              "en": ""
+            }
+          },
+          {
+            "id": "b",
+            "text": {
+              "fr": "B",
+              "en": ""
+            }
+          },
+          {
+            "id": "c",
+            "text": {
+              "fr": "C",
+              "en": ""
+            }
+          },
+          {
+            "id": "d",
+            "text": {
+              "fr": "D",
+              "en": ""
+            }
+          }
+        ],
+        "correctAnswer": "d",
+        "isMultiple": false
+      }
+    ],
+    "createdBy": "user-1774531848359-4gb0yrf",
+    "id": "qcm-1776677221603-6qw7w99",
+    "createdAt": "2026-04-20T09:27:01.603Z",
+    "updatedAt": "2026-04-20T09:27:01.603Z"
+  }
+]

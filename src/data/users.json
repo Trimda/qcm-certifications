@@ -1,0 +1,38 @@
+[
+  {
+    "id": "user-1",
+    "username": "admin",
+    "email": "admin@qcm.local",
+    "password": "$2b$10$onnddtbK0mGtr7e58yjL.ek9BDPKcmwM96wZYVBjwHQy.W6LgFB16",
+    "role": "admin",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "user-2",
+    "username": "contributor",
+    "email": "contributor@qcm.local",
+    "password": "$2b$10$KPc1f/acLl0drVAtxgISbeNiEpAsNwCdEUUQ2JLTCgmKRInqO/Y/S",
+    "role": "contributor",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "user-3",
+    "username": "user",
+    "email": "user@qcm.local",
+    "password": "$2b$10$lHDlwLKEbM1soo0Wz1qnoeSDHbqtdJNIdXdaOf7pEmfUVBJoWnLQ2",
+    "role": "user",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "user-1774531848359-4gb0yrf",
+    "username": "Sebastien",
+    "email": "sebastien.carreau@sogeti.com",
+    "password": "$2b$10$rVfRILTq4CDZIDgVyctbEOVqILiKhJtsou5kC4ePJNAEVXzi9QO9y",
+    "role": "admin",
+    "createdAt": "2026-03-26T13:30:48.359Z",
+    "updatedAt": "2026-03-26T15:37:19.532Z"
+  }
+]

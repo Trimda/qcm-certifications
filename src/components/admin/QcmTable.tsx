@@ -85,6 +85,7 @@ export const QcmTable: React.FC<QcmTableProps> = ({ qcms, users, avgRatings, onD
                       <button
                         title={t('common.delete')}
                         className="p-1.5 border-2 border-black hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors"
+                        style={{ height: 'fit-content' }}
                         onClick={() => setDeleteConfirm(qcm.id)}
                       >
                         <TrashIcon size={15} weight="bold" />

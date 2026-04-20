@@ -1,0 +1,165 @@
+[
+  {
+    "id": "ach-first-steps",
+    "label": {
+      "fr": "Premiers pas",
+      "en": "First Steps"
+    },
+    "description": {
+      "fr": "Terminer votre premier QCM.",
+      "en": "Complete your first QCM."
+    },
+    "icon": "Flag",
+    "color": "#00C853",
+    "secret": false,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "first_qcm_done",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-perfectionist",
+    "label": {
+      "fr": "Perfectionniste",
+      "en": "Perfectionist"
+    },
+    "description": {
+      "fr": "Obtenir un score parfait de 100%.",
+      "en": "Achieve a perfect score of 100%."
+    },
+    "icon": "Star",
+    "color": "#FFE600",
+    "secret": false,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "perfect_score",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-dedicated",
+    "label": {
+      "fr": "Assidu",
+      "en": "Dedicated"
+    },
+    "description": {
+      "fr": "Compléter 5 QCMs.",
+      "en": "Complete 5 QCMs."
+    },
+    "icon": "BookOpen",
+    "color": "#0057FF",
+    "secret": false,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "complete_N_qcms",
+    "triggerThreshold": 5,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-marathon",
+    "label": {
+      "fr": "Marathon",
+      "en": "Marathon"
+    },
+    "description": {
+      "fr": "Compléter 10 QCMs.",
+      "en": "Complete 10 QCMs."
+    },
+    "icon": "Trophy",
+    "color": "#FF6B00",
+    "secret": false,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "complete_N_qcms",
+    "triggerThreshold": 10,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-scholar",
+    "label": {
+      "fr": "Érudit",
+      "en": "Scholar"
+    },
+    "description": {
+      "fr": "Compléter 25 QCMs.",
+      "en": "Complete 25 QCMs."
+    },
+    "icon": "GraduationCap",
+    "color": "#8B00FF",
+    "secret": false,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "complete_N_qcms",
+    "triggerThreshold": 25,
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-week-warrior",
+    "label": {
+      "fr": "Guerrier de la semaine",
+      "en": "Week Warrior"
+    },
+    "description": {
+      "fr": "Pratiquer 7 jours d'affilée.",
+      "en": "Practice for 7 consecutive days."
+    },
+    "icon": "Lightning",
+    "color": "#FF4D4D",
+    "secret": false,
+    "descriptionHidden": true,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "streak_7_days",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-creator",
+    "label": {
+      "fr": "Créateur",
+      "en": "Creator"
+    },
+    "description": {
+      "fr": "Créer votre premier QCM.",
+      "en": "Create your first QCM."
+    },
+    "icon": "PencilSimple",
+    "color": "#FF6B00",
+    "secret": false,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "first_qcm_created",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "ach-rocket-launch",
+    "label": {
+      "fr": "Décollage !",
+      "en": "Liftoff!"
+    },
+    "description": {
+      "fr": "Vous avez découvert un secret caché dans la page d'accueil. 🚀",
+      "en": "You discovered a secret hidden on the homepage. 🚀"
+    },
+    "icon": "Rocket",
+    "color": "#FF4D4D",
+    "secret": true,
+    "descriptionHidden": false,
+    "unique": false,
+    "stackable": false,
+    "active": true,
+    "trigger": "rocket_click",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+]

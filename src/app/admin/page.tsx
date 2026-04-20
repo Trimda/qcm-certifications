@@ -82,6 +82,16 @@ export default function AdminDashboardPage() {
           )}
         </section>
 
+        {/* Achievements shortcut */}
+        <section>
+          <div className="flex items-center gap-4 mb-4">
+            <h2 className="memphis-heading text-2xl flex-1">{t('achievements.adminTitle')}</h2>
+            <Link href="/admin/achievements">
+              <Button variant="ghost" size="sm">{t('admin.seeAll')} &rarr;</Button>
+            </Link>
+          </div>
+        </section>
+
         {/* QCMs section */}
         <section>
           <div className="flex items-center gap-4 mb-6">
